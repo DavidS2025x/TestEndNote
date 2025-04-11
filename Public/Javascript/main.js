@@ -181,6 +181,17 @@ function Analitika(){
 }
 
 function Obrazec(){
+    //Če graf obstaja ga uniči preden ga ponovno nariše, preprečimo memory leak
+    if(chartUstanove){
+        chartUstanove.destroy();
+    }
+    if(chartOS){
+        chartOS.destroy();
+    }
+    if(chartENVer){
+        chartENVer.destroy();
+    }
+    
     fetch('/HTML/form.html')
             .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
             .then(html => {
@@ -290,18 +301,10 @@ function Obrazec(){
 }
 
 function novVnos(formData){
-    //Če graf obstaja ga uniči preden ga ponovno nariše, preprečimo memory leak
-    if(chartUstanove){
-        chartUstanove.destroy();
-    }
-    if(chartOS){
-        chartOS.destroy();
-    }
-    if(chartENVer){
-        chartENVer.destroy();
-    }
 
     orderServer("/Vnos",JSON.stringify(formData),"vnesi");
+
+    document.getElementById("Vnos").reset();
 
 };
 
