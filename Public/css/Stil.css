@@ -1,0 +1,27 @@
+.head, .foot{
+    height: 90px;
+}
+
+div > .btn{
+    min-height: 60px;
+}
+
+.table{
+    table-layout: auto;
+    
+}
+
+button{
+    min-width: 100px;
+    margin: 5px;
+}
+
+.Vsebina{
+    width: 90%;
+}
+
+thead{
+    position:sticky;
+    top:0;
+    z-index: 1;
+}
