@@ -6,10 +6,10 @@ const server = express();
 
 const pool = mysql.createPool({
     connectionLimit: 10,
-    host: 'localhost',
-    user: 'root',
-    password: 'AdminRoot2025!',
-    database: 'endnotenamestitve'
+    host: 'sql7.freesqldatabase.com',
+    user: 'sql7772553',
+    password: 'FfNiQnPPnW',
+    database: 'sql7772553'
 });
 
 server.use(express.urlencoded({ extended: true }));
