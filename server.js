@@ -13,7 +13,7 @@ const pool = mysql.createPool({
 });
 
 server.use(express.urlencoded({ extended: true }));
-server.use(express.static((path.join(__dirname, 'public'))));
+server.use(express.static(("Public")));
 server.use(express.json());
 
 server.get('/', (req, res) => {
