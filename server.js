@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const mysql = require("mysql")
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const server = express();
 
 const pool = mysql.createPool({
