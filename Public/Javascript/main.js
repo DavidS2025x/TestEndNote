@@ -222,18 +222,16 @@ function Obrazec(){
                     });
 
                     let selectElement = document.getElementById('StatusUporabnika');
-                        console.log(selectElement);
-                        let inputElement = document.getElementById('StopnjaStudija');
-                        console.log(inputElement);
+                    let inputElement = document.getElementById('StopnjaStudija');
 
-                        selectElement.addEventListener('change', function() {
-                            // Če je izbrana točno določena vrednost (npr. '2'), omogoči input
-                            if (selectElement.value === 'Študent') {
-                                inputElement.disabled = false; // Omogoči input
-                            } else {
-                                inputElement.disabled = true; // Onemogoči input
-                            }
-                        });
+                    selectElement.addEventListener('change', function() {
+                        
+                        if (selectElement.value === 'Študent') {
+                            inputElement.disabled = false;
+                        } else {
+                            inputElement.disabled = true;
+                        }
+                    });
 
                 //Dinamična generacija form options
                 askServer('Status')
@@ -314,11 +312,7 @@ function IzbrisVnosa(element){
     if(confirm(`Ste prepričani da želite izbrisati vnos z ID ${element.id}`)){
         orderServer("Izbris",`{"ID":"${element.id}"}`,"izbrisi")
         .then(data => {
-            console.log("Uspešen izbris:", data);
             Analitika(document.getElementById("Vsebina"));
-        })
-        .catch(error => {
-            console.error("Napaka pri orderServer:", error);
         });
     }
 }
