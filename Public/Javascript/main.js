@@ -308,7 +308,6 @@ function novVnos(formData){
 };
 
 function IzbrisVnosa(element){
-    console.log(element.id);
     if(confirm(`Ste prepričani da želite izbrisati vnos z ID ${element.id}`)){
         orderServer("Izbris",`{"ID":"${element.id}"}`,"izbrisi")
         .then(data => {
