@@ -25,15 +25,29 @@ export async function askServer(serverQuestion){
 export async function orderServer(serverOrder,orderContents,orderType) {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), 10000);
+    let response;
     if(orderType == "vnesi"){
-        return fetch(serverOrder, {
+        response = await fetch(serverOrder, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: orderContents
         });
+        clearTimeout(id);
     }else if(orderType == "uredi"){
-
+        clearTimeout(id);
+    }else if(orderType == "izbrisi"){
+        response = await fetch(serverOrder, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: orderContents
+        });
+        clearTimeout(id);
     }
+
+    return await response;
+    
 }

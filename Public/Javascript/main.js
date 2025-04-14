@@ -148,6 +148,7 @@ function Analitika(){
             let btnDel = document.createElement('button');
             btnDel.textContent = "Izbriši";
             btnDel.onclick = function(){
+                IzbrisVnosa(document.getElementById(this.className));
             }
 
             let btnTd = document.createElement('td');
@@ -307,6 +308,20 @@ function novVnos(formData){
     document.getElementById("Vnos").reset();
 
 };
+
+function IzbrisVnosa(element){
+    console.log(element.id);
+    if(confirm(`Ste prepričani da želite izbrisati vnos z ID ${element.id}`)){
+        orderServer("Izbris",`{"ID":"${element.id}"}`,"izbrisi")
+        .then(data => {
+            console.log("Uspešen izbris:", data);
+            Analitika(document.getElementById("Vsebina"));
+        })
+        .catch(error => {
+            console.error("Napaka pri orderServer:", error);
+        });
+    }
+}
 
 window.Dashboard = Dashboard;
 window.Analitika = Analitika;
