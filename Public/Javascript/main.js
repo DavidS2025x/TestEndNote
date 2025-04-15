@@ -322,11 +322,10 @@ function urediVnos(IdVnosa){
     let result;
     askServer("pridobiVnos",`{"ID":"${IdVnosa}"}`)
     .then(req => req.json())
-    .then(data => {
-        result = data;
-    });
-
-    fetch('/HTML/NewForm.html')
+    .then(dataTemp => {
+        result = dataTemp[0];
+        console.log(result);
+        fetch('/HTML/NewForm.html')
             .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
             .then(html => {
                 document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
@@ -353,8 +352,10 @@ function urediVnos(IdVnosa){
                             queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":StopnjaStudija,"username":username,"email":email,"EndNoteV":EndNoteV,"OS":OS,"Ustanova":Ustanova,"Datum":Datum} 
                         }
 
-                        orderServer("spremeniVnos",JSON.stringify(queryString),"uredi");
-                    
+                        orderServer("spremeniVnos",JSON.stringify(queryString),"uredi")
+                        .then(req => {
+                            Analitika();
+                        })
                 });
 
                 let selectElement = document.getElementById('StatusUporabnika');
@@ -380,6 +381,8 @@ function urediVnos(IdVnosa){
                         option.textContent = value.StatusUporabnika;
                         target.appendChild(option);
                     });
+                    document.getElementById("StatusUporabnika").value = result.StatusUporabnika;
+                    console.log(result.StatusUporabnika)
                 });
 
                 askServer('Stopnja')
@@ -392,6 +395,8 @@ function urediVnos(IdVnosa){
                         option.textContent = value.StopnjaStudijskegaPrograma;
                         target.appendChild(option);
                     });
+                    document.getElementById("StopnjaStudija").value = result.StopnjaStudijskegaPrograma;
+                    console.log(result.StopnjaStudijskegaPrograma)
                 });
 
                 
@@ -405,6 +410,8 @@ function urediVnos(IdVnosa){
                         option.textContent = value.NazivEndNoteVerzije;
                         target.appendChild(option);
                     });
+                    document.getElementById("EndNoteV").value = result.NazivEndNoteVerzije;
+                    console.log(result.NazivEndNoteVerzije)
                 });
 
                 askServer('OS')
@@ -417,6 +424,8 @@ function urediVnos(IdVnosa){
                         option.textContent = value.NazivOS;
                         target.appendChild(option);
                     });
+                    document.getElementById("OS").value = result.NazivOS;
+                    console.log(result.NazivOS)
                 });
                 
                 askServer('Ustanova')
@@ -429,8 +438,26 @@ function urediVnos(IdVnosa){
                         option.textContent = value.Kratica;
                         target.appendChild(option);
                     });
+                    document.getElementById("Ustanova").value = result.Ustanova;
+                    console.log(result.Ustanova)
                 });
+
+                document.getElementById("Ime").value = result.Ime;
+                console.log(result.Ime)
+                document.getElementById("Priimek").value = result.Priimek;
+                console.log(result.Priimek)
+                document.getElementById("Spol").value = result.Spol;
+                console.log(result.Spol)
+                document.getElementById("username").value = result.OznakaSkrbnika;
+                console.log(result.OznakaOskrbnika)
+                document.getElementById("email").value = result.ElektronskaPosta;
+                console.log(result.ElektronskaPosta)
+                document.getElementById("Datum").value = result.DatumNamestitve;
+                console.log(result.DatumNamestitve)
             });
+    });
+
+    
 }
 
 window.Dashboard = Dashboard;
