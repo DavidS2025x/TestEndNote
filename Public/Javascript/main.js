@@ -112,7 +112,7 @@ function Analitika(){
 
         //Pripravimo vse potrebne elemente za kreiranje tabele s podatki, ki nam jih je poslal strežnik
         let tabela = document.createElement('table');
-        tabela.className = "table";
+        tabela.className = "table table-sm table-striped";
 
         let tabelaHead = document.createElement('thead');
         let tabelaHeadTr = document.createElement('tr');
@@ -124,7 +124,7 @@ function Analitika(){
             tabelaHeadTr.append(tabelaHeadTd);
         })
         //Ekstra td za ujemanje s številom td v telesu tabele
-        let tabelaHeadTd = document.createElement('td');
+        let tabelaHeadTd = document.createElement('th');
         tabelaHeadTr.append(tabelaHeadTd);
 
         tabelaHead.append(tabelaHeadTr);
@@ -141,7 +141,7 @@ function Analitika(){
             let btn = document.createElement('button');
             btn.textContent = "Uredi";
             btn.onclick = function(){
-                UrejanjeVnosa(document.getElementById(this.className));
+                urediVnos(document.getElementById(this.className).id);
             }
 
             //Gumb za brisanje
@@ -203,7 +203,7 @@ function Obrazec(){
 
                         let Ime = document.getElementById("Ime").value;
                         let Priimek = document.getElementById("Priimek").value;
-                        let Spol = document.querySelector('input[name="Spol"]:checked')?.value || "";
+                        let Spol = document.getElementById("Spol").value;
                         let StatusUporabnika = document.getElementById("StatusUporabnika").value;
                         let StopnjaStudija = document.getElementById("StopnjaStudija").value;
                         let username = document.getElementById("username").value;
@@ -315,6 +315,122 @@ function IzbrisVnosa(element){
             Analitika(document.getElementById("Vsebina"));
         });
     }
+}
+
+function urediVnos(IdVnosa){
+
+    let result;
+    askServer("pridobiVnos",`{"ID":"${IdVnosa}"}`)
+    .then(req => req.json())
+    .then(data => {
+        result = data;
+    });
+
+    fetch('/HTML/NewForm.html')
+            .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+            .then(html => {
+                document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+                document.getElementById("Vnos").addEventListener("submit", function(event) {
+                    event.preventDefault();
+
+                        let Ime = document.getElementById("Ime").value;
+                        let Priimek = document.getElementById("Priimek").value;
+                        let Spol = document.getElementById("Spol").value;
+                        let StatusUporabnika = document.getElementById("StatusUporabnika").value;
+                        let StopnjaStudija = document.getElementById("StopnjaStudija").value;
+                        let username = document.getElementById("username").value;
+                        let email = document.getElementById("email").value;
+                        let EndNoteV = document.getElementById("EndNoteV").value;
+                        let OS = document.getElementById("OS").value;
+                        let Ustanova = document.getElementById("Ustanova").value;
+                        let Datum = document.getElementById("Datum").value;
+
+                        let queryString;
+
+                        if(document.getElementById('StopnjaStudija').disabled){
+                            queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":"","username":username,"email":email,"EndNoteV":EndNoteV,"OS":OS,"Ustanova":Ustanova,"Datum":Datum} 
+                        }else{
+                            queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":StopnjaStudija,"username":username,"email":email,"EndNoteV":EndNoteV,"OS":OS,"Ustanova":Ustanova,"Datum":Datum} 
+                        }
+
+                        orderServer("spremeniVnos",JSON.stringify(queryString),"uredi");
+                    
+                });
+
+                let selectElement = document.getElementById('StatusUporabnika');
+                    let inputElement = document.getElementById('StopnjaStudija');
+
+                    selectElement.addEventListener('change', function() {
+                        
+                        if (selectElement.value === 'Študent') {
+                            inputElement.disabled = false;
+                        } else {
+                            inputElement.disabled = true;
+                        }
+                    });
+
+                //Dinamična generacija form options
+                askServer('Status')
+                .then(req => req.json())
+                .then(data => {
+                    let target = document.getElementById('StatusUporabnika')
+                    Object.entries(data).forEach(([key, value]) => {
+                        let option = document.createElement('option');
+                        option.value = value.StatusUporabnika;
+                        option.textContent = value.StatusUporabnika;
+                        target.appendChild(option);
+                    });
+                });
+
+                askServer('Stopnja')
+                .then(req => req.json())
+                .then(data => {
+                    let target = document.getElementById('StopnjaStudija')
+                    Object.entries(data).forEach(([key, value]) => {
+                        let option = document.createElement('option');
+                        option.value = value.StopnjaStudijskegaPrograma;
+                        option.textContent = value.StopnjaStudijskegaPrograma;
+                        target.appendChild(option);
+                    });
+                });
+
+                
+                askServer('EndNote')
+                .then(req => req.json())
+                .then(data => {
+                    let target = document.getElementById('EndNoteV')
+                    Object.entries(data).forEach(([key, value]) => {
+                        let option = document.createElement('option');
+                        option.value = value.NazivEndNoteVerzije;
+                        option.textContent = value.NazivEndNoteVerzije;
+                        target.appendChild(option);
+                    });
+                });
+
+                askServer('OS')
+                .then(req => req.json())
+                .then(data => {
+                    let target = document.getElementById('OS')
+                    Object.entries(data).forEach(([key, value]) => {
+                        let option = document.createElement('option');
+                        option.value = value.NazivOS;
+                        option.textContent = value.NazivOS;
+                        target.appendChild(option);
+                    });
+                });
+                
+                askServer('Ustanova')
+                .then(req => req.json())
+                .then(data => {
+                    let target = document.getElementById('Ustanova')
+                    Object.entries(data).forEach(([key, value]) => {
+                        let option = document.createElement('option');
+                        option.value = value.Kratica;
+                        option.textContent = value.Kratica;
+                        target.appendChild(option);
+                    });
+                });
+            });
 }
 
 window.Dashboard = Dashboard;

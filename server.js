@@ -62,7 +62,7 @@ server.post('/StNamestitev', async (req, res) => {
 
 server.post('/Analitika', async (req, res) => {
     try{
-        let result = await SQLquery("SELECT IdNamestitve AS ID, Ime, Priimek, Spol, Ustanova FROM tabnamestitev");
+        let result = await SQLquery("SELECT IdNamestitve AS ID, Ime, Priimek, Spol, Ustanova, StatusUporabnika AS Status FROM tabnamestitev");
         res.send(result);
     } catch (err){
         console.log(err)
@@ -100,6 +100,32 @@ server.post('/Izbris', async (req, res) => {
     }catch(err){
         console.log(err)
         res.status(500).json({ success: false });
+    }
+});
+
+server.post('/pridobiVnos', async (req, res) => {
+    try{
+        let id = req.body.ID
+        console.log(id)
+        let result = await SQLquery(`SELECT * FROM tabnamestitev WHERE IdNamestitve = '${id}'`);
+        res.send(result);
+    }catch(err){
+        console.log(err);
+    }
+});
+
+server.post('/spremeniVnos', async (req, res) => {
+    try{
+        console.log(req.body.Ime);
+        let result;
+        if(req.body.StopnjaStudija == ""){
+            result = await SQLquery(`UPDATE tabnamestitev SET Ime = '${req.body.Ime}', Priimek = '${req.body.Priimek}', Spol = '${req.body.Spol}', ElektronskaPosta = '${req.body.email}', Ustanova = '${req.body.Ustanova}', NazivOS = '${req.body.OS}', NazivEndNoteVerzije = '${req.body.EndNoteV}', StatusUporabnika = '${req.body.StatusUporabnika}', ClanicaNamestitve = 'UKM', StopnjaStudijskegaPrograma = 'NULL', OznakaSkrbnika = '${req.body.username}', DatumSpremembe = '${req.body.Datum}' WHERE IdNamestitve = '${req.body.ID}'`)
+        }else{
+            result = await SQLquery(`UPDATE tabnamestitev SET Ime = '${req.body.Ime}', Priimek = '${req.body.Priimek}', Spol = '${req.body.Spol}', ElektronskaPosta = '${req.body.email}', Ustanova = '${req.body.Ustanova}', NazivOS = '${req.body.OS}', NazivEndNoteVerzije = '${req.body.EndNoteV}', StatusUporabnika = '${req.body.StatusUporabnika}', ClanicaNamestitve = 'UKM', StopnjaStudijskegaPrograma = '${req.body.StopnjaStudija}', OznakaSkrbnika = '${req.body.username}', DatumSpremembe = '${req.body.Datum}' WHERE IdNamestitve = '${req.body.ID}'`)
+        }
+        res.send(result);
+    }catch(err){
+        console.log(err);
     }
 });
 

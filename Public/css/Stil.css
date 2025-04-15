@@ -51,12 +51,9 @@ nav > footer{
     padding: 20px;
 }
 
-.table{
-    table-layout: auto;
-}
-
-thead > th{
+th{
     background-color: #564256 !important;
+    color: white !important;
 }
 
 td{

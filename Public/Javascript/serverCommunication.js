@@ -1,4 +1,4 @@
-export async function askServer(serverQuestion){
+export async function askServer(serverQuestion, optionalOrder = '{"ID":"0"}'){
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), 10000);
     return await fetch(serverQuestion, {
@@ -6,6 +6,7 @@ export async function askServer(serverQuestion){
     headers: {
         'Content-Type': 'application/json',
     },
+    body: optionalOrder,
     signal:controller.signal
     }).then(response =>{
         clearTimeout(id);
@@ -36,6 +37,13 @@ export async function orderServer(serverOrder,orderContents,orderType) {
         });
         clearTimeout(id);
     }else if(orderType == "uredi"){
+        response = await fetch(serverOrder, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: orderContents
+        });
         clearTimeout(id);
     }else if(orderType == "izbrisi"){
         response = await fetch(serverOrder, {
