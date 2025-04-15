@@ -1,27 +1,77 @@
-.head, .foot{
-    height: 90px;
+body{
+    
 }
 
-div > .btn{
-    min-height: 60px;
+nav{
+    height: 100%;
+    width: 150px;
+    position: fixed;
+    background-color: #e8e8e8;
+}
+
+nav > header{
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+    background-color: #564256;
+    color:white;
+}
+
+nav > ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+nav > ul > li{
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+}
+
+nav > ul > li:hover{
+    background: #96939B;
+}
+
+
+nav > footer{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding: 5px;
+    text-align: center;
+    color:white;
+    background-color: #564256;
+}
+
+#Vsebina{
+    height: 100vh;
+    margin-left: 150px;
+    padding: 20px;
 }
 
 .table{
     table-layout: auto;
-    
 }
 
-button{
-    min-width: 100px;
-    margin: 5px;
+thead > th{
+    background-color: #564256 !important;
 }
 
-.Vsebina{
-    width: 90%;
+td{
+    text-align: center;
 }
 
-thead{
-    position:sticky;
-    top:0;
-    z-index: 1;
+td > button{
+    border: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: #FC814A;
+    border-radius: 5px;
+    color: white;
+}
+
+label{
+    width: 125px;
 }

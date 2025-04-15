@@ -62,7 +62,7 @@ server.post('/StNamestitev', async (req, res) => {
 
 server.post('/Analitika', async (req, res) => {
     try{
-        let result = await SQLquery("SELECT * FROM tabnamestitev");
+        let result = await SQLquery("SELECT IdNamestitve AS ID, Ime, Priimek, Spol, Ustanova FROM tabnamestitev");
         res.send(result);
     } catch (err){
         console.log(err)

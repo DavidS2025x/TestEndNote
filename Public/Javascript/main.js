@@ -119,7 +119,7 @@ function Analitika(){
 
         //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
         Object.entries(data[0]).forEach(([key, value]) => {
-            let tabelaHeadTd = document.createElement('td');
+            let tabelaHeadTd = document.createElement('th');
             tabelaHeadTd.textContent = key;
             tabelaHeadTr.append(tabelaHeadTd);
         })
@@ -177,6 +177,7 @@ function Analitika(){
 
         tabela.append(tabelaBody);
 
+
         document.getElementById("Vsebina").append(tabela);
     })
 }
@@ -193,7 +194,7 @@ function Obrazec(){
         chartENVer.destroy();
     }
     
-    fetch('/HTML/form.html')
+    fetch('/HTML/NewForm.html')
             .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
             .then(html => {
                 document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
