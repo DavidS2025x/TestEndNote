@@ -10,9 +10,10 @@ export function iskanjeTabela(iskalnoPolje,tabela) {
   
     //Preišči vse vrstice v tabeli
     for (let i = 1; i < tr.length; i++) {
+        //Vse vnose vrstice tr[i] shranimo v td kot polje
         td = tr[i].getElementsByTagName("td");
         matchFound = false;
-        //Preišči vse vnose v vrstici
+        //Preišči vse elemente v td polju v vrstici
         for(let j = 0; j < td.length; j++){
             //Če obstaja preveri vrednost
             if(td[j]){
