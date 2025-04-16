@@ -5,8 +5,8 @@ export function chartBar(data,label,ctx){
             labels: label,
             datasets: [{
                 data: data,
-                backgroundColor: 'rgba(77, 231, 255, 1)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: '#ba0559',
+                borderColor: '#ba0559',
                 borderWidth: 1
             }]
         },
@@ -40,10 +40,20 @@ export function chartPie(data, label, ctx){
         label: 'Stevilo OS',
         data: data,
         backgroundColor: [
-            'rgba(255, 99, 132, 0.6)',
+            '#34095c',
+            '#670062',
+            '#940060',
+            '#ba0559',
+            '#da304c',
+            '#f0563b'
         ],
         borderColor: [
-            'rgba(255, 99, 132, 1)',
+            '#34095c',
+            '#670062',
+            '#940060',
+            '#ba0559',
+            '#da304c',
+            '#f0563b'
         ],
         borderWidth: 1
         }]

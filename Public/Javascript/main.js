@@ -84,7 +84,7 @@ function Dashboard(){
     .then(res => res.json())
     .then(data => {
         console.log(data);
-        document.getElementById("StNamLab").innerHTML = "Namestitve";
+        document.getElementById("StNamLab").innerHTML = "NAMESTITVE:";
         document.getElementById("StNam").innerHTML = data[0].Stevilo;
     })
 
@@ -110,6 +110,14 @@ function Analitika(){
     .then(res => res.json())
     .then(data => {
 
+        let addButton = document.createElement("button");
+                addButton.innerText="NOV VNOS +";
+                addButton.className="dodaj";
+                addButton.onclick = function(){
+                    Obrazec();
+                }
+
+        document.getElementById("Vsebina").append(addButton);
         //Pripravimo vse potrebne elemente za kreiranje tabele s podatki, ki nam jih je poslal strežnik
         let tabela = document.createElement('table');
         tabela.className = "table table-sm table-striped";
@@ -193,11 +201,12 @@ function Obrazec(){
     if(chartENVer){
         chartENVer.destroy();
     }
-    
+
     fetch('/HTML/NewForm.html')
             .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
             .then(html => {
                 document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+
                 document.getElementById("Vnos").addEventListener("submit", function(event) {
                     event.preventDefault(); 
 
@@ -320,6 +329,7 @@ function IzbrisVnosa(element){
 function urediVnos(IdVnosa){
 
     let result;
+
     askServer("pridobiVnos",`{"ID":"${IdVnosa}"}`)
     .then(req => req.json())
     .then(dataTemp => {
