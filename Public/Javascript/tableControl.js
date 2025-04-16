@@ -34,3 +34,7 @@ export function iskanjeTabela(iskalnoPolje,tabela) {
         }
     }
   }
+
+export function sortirajTabelo(){
+    
+}

@@ -1,6 +1,6 @@
 import {askServer, orderServer} from './serverCommunication.js';
 import {chartBar,chartPie} from './graph.js';
-import {iskanjeTabela} from './tableControl.js';
+import {iskanjeTabela, sortirajTabelo} from './tableControl.js';
 
     let chartUstanove;
     let chartOS;
