@@ -145,7 +145,7 @@ function Analitika(){
 
         //Pripravimo vse potrebne elemente za kreiranje tabele s podatki, ki nam jih je poslal strežnik
         let tabela = document.createElement('table');
-        tabela.className = "table table-sm table-striped";
+        tabela.className = "table table-sm";
         tabela.id = "IzpisPB"
 
         let tabelaHead = document.createElement('thead');
