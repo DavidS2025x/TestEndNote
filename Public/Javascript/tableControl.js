@@ -1,12 +1,12 @@
 export function iskanjeTabela(iskalnoPolje,tabela) {
-    // Declare variables
-    let input, filter, table, tr, td, txtValue, matchFound;
+    //Naredimo spremenljivke
+    let filter, tr, td, txtValue, matchFound;
 
-    input = iskalnoPolje;
-    filter = input.value.toUpperCase();
+    //Vsebino iskalnega polja prepišemo v filter
+    filter = iskalnoPolje.value.toUpperCase();
 
-    table = tabela;
-    tr = table.getElementsByTagName("tr");
+    //V tr shranimo polje vseh tr elementov tabele
+    tr = tabela.getElementsByTagName("tr");
   
     //Preišči vse vrstice v tabeli
     for (let i = 1; i < tr.length; i++) {
@@ -27,10 +27,8 @@ export function iskanjeTabela(iskalnoPolje,tabela) {
         }
         //Če smo v vrstici našli ujemanje nastavimo display nastavitve na "", da se vrstica lahko prikaže, če ujemanja nismo našli pa nastavimo na "none" da se vrstica ne pokaže
         if(matchFound){
-            console.log("Nastavljam na prikaz");
             tr[i].style.display = "";
         }else{
-            console.log("Nastavljam na prikaz");
             tr[i].style.display = "none";
         }
     }
