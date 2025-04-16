@@ -1,5 +1,6 @@
 import {askServer, orderServer} from './serverCommunication.js';
 import {chartBar,chartPie} from './graph.js';
+import {iskanjeTabela} from './tableControl.js';
 
     let chartUstanove;
     let chartOS;
@@ -110,6 +111,7 @@ function Analitika(){
     .then(res => res.json())
     .then(data => {
 
+        //Ustvarimo in dodamo gumb za novi vnos
         let addButton = document.createElement("button");
                 addButton.innerText="NOV VNOS +";
                 addButton.className="dodaj";
@@ -117,7 +119,30 @@ function Analitika(){
                     Obrazec();
                 }
 
+        //Ustvarimo lable za iskalno polje
+        let label = document.createElement("label");
+                label.htmlFor = "iskalnoPolje";
+                label.innerText = "Iskanje: ";
+                label.className = "form-label text-center";
+
+        //Ustvarimo nov input za iskanje
+        let searchBar = document.createElement("input");
+                searchBar.type="text";
+                searchBar.id="iskalnoPolje";
+                searchBar.onkeyup = function(){
+                    iskanjeTabela(document.getElementById("iskalnoPolje"),document.getElementById("Vnos"));
+                }
+                searchBar.className = "form-control";
+
+        //Ustvarimo nov div element za shranjevanje iskalnega polja
+        let searchContainer = document.createElement("div");
+                searchContainer.className = "container d-flex flow-row ms-0 mt-2 mb-2 align-items-center";
+                searchContainer.append(label);
+                searchContainer.append(searchBar);
+        
         document.getElementById("Vsebina").append(addButton);
+        document.getElementById("Vsebina").append(searchContainer);
+
         //Pripravimo vse potrebne elemente za kreiranje tabele s podatki, ki nam jih je poslal strežnik
         let tabela = document.createElement('table');
         tabela.className = "table table-sm table-striped";

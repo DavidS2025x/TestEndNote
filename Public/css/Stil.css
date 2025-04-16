@@ -35,11 +35,21 @@ nav > ul > li{
 
 nav > ul > li:hover{
     background: #96939B;
+    animation-name: test;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 ul > .danger:hover{
     background-color: #FC814A;
     color:white;
+}
+
+@keyframes test {
+    from {width: 150px;}
+    to {width: 160px;}
 }
 
 
@@ -92,4 +102,18 @@ td > button{
 
 label{
     width: 125px;
+    text-align: center !important;
+    margin: 0 !important;
+    background-color: #564256;
+    margin-right: 10px !important;
+    color: white !important;
+    font-weight: bold !important;
+    border-radius: 5px;
+    padding: 7px;
 }
+
+#obrazecContainer{
+    max-width: 600px;
+    margin: auto;
+}
+
