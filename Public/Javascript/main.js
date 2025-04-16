@@ -130,7 +130,7 @@ function Analitika(){
                 searchBar.type="text";
                 searchBar.id="iskalnoPolje";
                 searchBar.onkeyup = function(){
-                    iskanjeTabela(document.getElementById("iskalnoPolje"),document.getElementById("Vnos"));
+                    iskanjeTabela(document.getElementById("iskalnoPolje"),document.getElementById("IzpisPB"));
                 }
                 searchBar.className = "form-control";
 
@@ -146,6 +146,7 @@ function Analitika(){
         //Pripravimo vse potrebne elemente za kreiranje tabele s podatki, ki nam jih je poslal strežnik
         let tabela = document.createElement('table');
         tabela.className = "table table-sm table-striped";
+        tabela.id = "IzpisPB"
 
         let tabelaHead = document.createElement('thead');
         let tabelaHeadTr = document.createElement('tr');
