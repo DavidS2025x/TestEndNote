@@ -72,17 +72,20 @@ server.post('/Analitika', async (req, res) => {
 });
 
 server.post('/Vnos', async (req, res) => {
+    let result;
     try{
     let vnos = req.body;
     try{
         if(vnos.StopnjaStudija == ""){
-            let result = await SQLquery(`INSERT INTO tabnamestitev(Ime,Priimek,Spol,ElektronskaPosta,Ustanova,NazivOS,NazivEndNoteVerzije,StatusUporabnika,ClanicaNamestitve,StopnjaStudijskegaPrograma,OznakaSkrbnika,DatumNamestitve,DatumSpremembe) VALUES("${vnos.Ime}","${vnos.Priimek}","${vnos.Spol}","${vnos.email}","${vnos.Ustanova}","${vnos.OS}","${vnos.EndNoteV}","${vnos.StatusUporabnika}",'UKM',NULL,"${vnos.username}","${vnos.Datum}","${vnos.Datum}")`);
+            result = await SQLquery(`INSERT INTO tabnamestitev(Ime,Priimek,Spol,ElektronskaPosta,Ustanova,NazivOS,NazivEndNoteVerzije,StatusUporabnika,ClanicaNamestitve,StopnjaStudijskegaPrograma,OznakaSkrbnika,DatumNamestitve,DatumSpremembe) VALUES("${vnos.Ime}","${vnos.Priimek}","${vnos.Spol}","${vnos.email}","${vnos.Ustanova}","${vnos.OS}","${vnos.EndNoteV}","${vnos.StatusUporabnika}",'UKM',NULL,"${vnos.username}","${vnos.Datum}","${vnos.Datum}")`);
         }else{
-            let result = await SQLquery(`INSERT INTO tabnamestitev(Ime,Priimek,Spol,ElektronskaPosta,Ustanova,NazivOS,NazivEndNoteVerzije,StatusUporabnika,ClanicaNamestitve,StopnjaStudijskegaPrograma,OznakaSkrbnika,DatumNamestitve,DatumSpremembe) VALUES("${vnos.Ime}","${vnos.Priimek}","${vnos.Spol}","${vnos.email}","${vnos.Ustanova}","${vnos.OS}","${vnos.EndNoteV}","${vnos.StatusUporabnika}",'UKM',"${vnos.StopnjaStudija}","${vnos.username}","${vnos.Datum}","${vnos.Datum}")`);
+            result = await SQLquery(`INSERT INTO tabnamestitev(Ime,Priimek,Spol,ElektronskaPosta,Ustanova,NazivOS,NazivEndNoteVerzije,StatusUporabnika,ClanicaNamestitve,StopnjaStudijskegaPrograma,OznakaSkrbnika,DatumNamestitve,DatumSpremembe) VALUES("${vnos.Ime}","${vnos.Priimek}","${vnos.Spol}","${vnos.email}","${vnos.Ustanova}","${vnos.OS}","${vnos.EndNoteV}","${vnos.StatusUporabnika}",'UKM',"${vnos.StopnjaStudija}","${vnos.username}","${vnos.Datum}","${vnos.Datum}")`);
         }
         
+        res.send(result);
         res.status(200);
     }catch(err){
+        res.send(result);
         res.status(500)
     }
     res.status(200);

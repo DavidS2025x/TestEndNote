@@ -243,6 +243,9 @@ function Obrazec(){
             .then(html => {
                 document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
                 
+                let danes = new Date().toISOString().split("T")[0];
+                document.getElementById("Datum").value = danes;
+
                 document.getElementById("Vnos").addEventListener("submit", function(event) {
                     event.preventDefault(); 
 
@@ -365,7 +368,7 @@ function novVnos(formData){
 };
 
 function IzbrisVnosa(element){
-    if(confirm(`Ste prepričani da želite izbrisati vnos z ID ${element.id}`)){
+    if(confirm(`Ste prepričani da želite izbrisati vnos z ID ${element.id}?`)){
         orderServer("Izbris",`{"ID":"${element.id}"}`,"izbrisi")
         .then(data => {
             Analitika(document.getElementById("Vsebina"));
@@ -386,6 +389,10 @@ function urediVnos(IdVnosa){
             .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
             .then(html => {
                 document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+
+                let danes = new Date().toISOString().split("T")[0];
+                document.getElementById("Datum").value = danes;
+
                 document.getElementById("Vnos").addEventListener("submit", function(event) {
                     event.preventDefault();
 
@@ -509,8 +516,6 @@ function urediVnos(IdVnosa){
                 console.log(result.OznakaOskrbnika)
                 document.getElementById("email").value = result.ElektronskaPosta;
                 console.log(result.ElektronskaPosta)
-                document.getElementById("Datum").value = result.DatumNamestitve;
-                console.log(result.DatumNamestitve)
             });
     });
 
