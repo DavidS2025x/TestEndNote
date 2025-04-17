@@ -13,12 +13,13 @@ const pool = mysql.createPool({
 });
 
 server.use(express.urlencoded({ extended: true }));
-server.use(express.static(("Public")));
 server.use(express.json());
 
 server.get('/', (req, res) => {
     res.sendFile(path.join(__dirname,"Public","Index.html"));
 });
+
+server.use(express.static(("Public")));
 
 server.post('/analitikaUstanove', async (req, res) => {
     try{
@@ -62,7 +63,7 @@ server.post('/StNamestitev', async (req, res) => {
 
 server.post('/Analitika', async (req, res) => {
     try{
-        let result = await SQLquery("SELECT IdNamestitve AS ID, Ime, Priimek, Spol, Ustanova, StatusUporabnika AS Status FROM tabnamestitev");
+        let result = await SQLquery("SELECT IdNamestitve AS '#', Ime, Priimek, Spol, Ustanova, StatusUporabnika AS Status FROM tabnamestitev ORDER BY Priimek, Ime");
         res.send(result);
     } catch (err){
         console.log(err)

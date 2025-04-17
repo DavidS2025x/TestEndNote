@@ -79,13 +79,18 @@ nav > footer{
     font-size: x-large;
 }
 
+.iskanje{
+    background-color: #FC814A;
+    border: 0;
+    border-radius: 5px;
+    width: 25px;
+    color: white;   
+    margin-left: 5px;
+}
+
 th{
     background-color: #564256 !important;
     color: white !important;
-}
-
-td{
-    text-align: center;
 }
 
 td > button{
@@ -115,3 +120,30 @@ label{
     margin: auto;
 }
 
+#obrazecPotrdi{
+    background-color: #be5b2c;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    font-weight: bolder;
+    min-height: 40px;
+    min-width: 150px;
+    font-size: x-large;
+}
+
+#obrazecPonastavi{
+    background-color: #FC814A;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    font-weight: bolder;
+    min-height: 40px;
+    min-width: 150px;
+    font-size: x-large;
+    margin-right: 10px;
+}
+
+hr{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

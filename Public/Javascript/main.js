@@ -122,7 +122,7 @@ function Analitika(){
         //Ustvarimo lable za iskalno polje
         let label = document.createElement("label");
                 label.htmlFor = "iskalnoPolje";
-                label.innerText = "Iskanje: ";
+                label.innerText = "Iskanje";
                 label.className = "form-label text-center";
 
         //Ustvarimo nov input za iskanje
@@ -134,11 +134,21 @@ function Analitika(){
                 }
                 searchBar.className = "form-control";
 
+        //Ustvarimo nov gumb za izbris iskanja
+        let clearButton = document.createElement("button");
+                clearButton.innerText="X";
+                clearButton.className="iskanje";
+                clearButton.onclick = function(){
+                    document.getElementById("iskalnoPolje").value = "";
+                    iskanjeTabela(document.getElementById("iskalnoPolje"),document.getElementById("IzpisPB"));
+                }
+
         //Ustvarimo nov div element za shranjevanje iskalnega polja
         let searchContainer = document.createElement("div");
                 searchContainer.className = "container d-flex flow-row ms-0 mt-2 mb-2 align-items-center";
                 searchContainer.append(label);
                 searchContainer.append(searchBar);
+                searchContainer.append(clearButton);
         
         document.getElementById("Vsebina").append(addButton);
         document.getElementById("Vsebina").append(searchContainer);
@@ -232,7 +242,7 @@ function Obrazec(){
             .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
             .then(html => {
                 document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
-
+                
                 document.getElementById("Vnos").addEventListener("submit", function(event) {
                     event.preventDefault(); 
 
@@ -328,6 +338,17 @@ function Obrazec(){
                         option.value = value.Kratica;
                         option.textContent = value.Kratica;
                         target.appendChild(option);
+                    });
+                    //Izberi celoten tekst v inputu, ko nanj pritisnemo
+                    document.querySelectorAll("label").forEach(label => {
+                        label.addEventListener("click", (e) => {
+                            const inputId = label.getAttribute("for");
+                            const input = document.getElementById(inputId);
+                            if (input && input.select) {
+                                // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
+                                setTimeout(() => input.select(), 0);
+                            }
+                        });
                     });
                 });
 
