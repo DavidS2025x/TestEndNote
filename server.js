@@ -58,6 +58,18 @@ server.post('/login', async (req, res) => {
         */
 });
 
+server.post('/Odjava', (req, res) => {
+    console.log("odjava");
+    req.session.destroy((err) => {
+        if(err){
+            console.log(err);
+            res.status(500).send("Napaka pri odjavi.");
+        }else{
+            res.redirect('/');
+        }
+    });
+});
+
 server.post('/analitikaUstanove', async (req, res) => {
     try{
         let result = await SQLquery("SELECT COUNT(*) AS Stevilo, Ustanova FROM tabnamestitev GROUP BY Ustanova")

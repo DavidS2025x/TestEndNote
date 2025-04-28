@@ -523,6 +523,12 @@ function urediVnos(IdVnosa){
     
 }
 
+function Odjava(){
+    console.log("odjava");
+    askServer("/Odjava");
+}
+
 window.Dashboard = Dashboard;
 window.Analitika = Analitika;
 window.Obrazec = Obrazec;
+window.Odjava = Odjava;
