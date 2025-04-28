@@ -29,7 +29,7 @@ server.get('/', (req, res) => {
 
 server.use(express.static(("Public")));
 
-server.get('/login', async (req, res) => {
+server.post('/login', async (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     let result = await SQLquery(`SELECT * FROM tablogin WHERE Username = '${username}' AND Password = '${password}'`);
@@ -41,7 +41,7 @@ server.get('/login', async (req, res) => {
         console.log("uspeh");
     }else{
         console.log("napaka");
-        res.redirect('/login');
+        res.redirect('/login.html');
     }
 });
 
