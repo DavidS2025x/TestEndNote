@@ -16,7 +16,7 @@ server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 
 server.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname,"Public","Login.html"));
+    res.sendFile(path.join(__dirname,"Public","login.html"));
 });
 
 server.use(express.static(("Public")));
