@@ -530,8 +530,14 @@ function urediVnos(IdVnosa){
     
 }
 
-function Odjava(){
-    askServer("/Odjava");
+async function Odjava(){
+    const response = await askServer('/Odjava');
+
+    if (response.redirected) {
+        window.location.href = response.url;
+    } else {
+        console.error("Odjava ni uspela.");
+    }
 }
 
 async function user(){
