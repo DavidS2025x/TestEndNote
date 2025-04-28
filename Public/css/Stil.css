@@ -156,4 +156,5 @@ input::placeholder{
 #login{
     background-color: #FC814A;
     color: white;
+    font-weight: bold;
 }
