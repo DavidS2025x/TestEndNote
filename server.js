@@ -29,33 +29,20 @@ server.get('/', (req, res) => {
 
 server.use(express.static(("Public")));
 
-server.post('/login', async (req, res) => {
+server.get('/login', async (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     let result = await SQLquery(`SELECT * FROM tablogin WHERE Username = '${username}' AND Password = '${password}'`);
-    console.log(result);
-    console.log(result);
     if(result.length > 0){
-        res.redirect('/Index.html');
         req.session.Username = username;
         req.session.ID = result[0].OznakaSkrbnika;
         req.session.Admin = result[0].Admin;
+        res.redirect('/Index.html');
         console.log("uspeh");
     }else{
         console.log("napaka");
-        res.redirect('login.html');
+        res.redirect('/login');
     }
-    /*
-    if(result.length > 0){
-        req.session.username = username;
-        req.session.id = result[0].IdUporabnika;
-        res.send({success: true});
-        res.redirect('/Index.html');
-    }else{
-        res.send({success: false});
-        res.redirect('/');
-    }
-        */
 });
 
 server.post('/Odjava', (req, res) => {
@@ -65,10 +52,24 @@ server.post('/Odjava', (req, res) => {
             console.log(err);
             res.status(500).send("Napaka pri odjavi.");
         }else{
-            res.redirect('/');
+            res.redirect('/login.html');
         }
     });
 });
+
+server.post('/user', (req, res) => {
+    /*
+    res.json({
+        username: req.session.Username,
+        ID: req.session.ID,
+        Admin: req.session.Admin
+    });
+    */
+    console.log(req.session.Username);
+    console.log(req.session.ID);
+    console.log(req.session.Admin);
+    res.send({"username": req.session.Username, "ID": req.session.ID, "Admin": req.session.Admin});
+})
 
 server.post('/analitikaUstanove', async (req, res) => {
     try{

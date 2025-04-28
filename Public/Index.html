@@ -14,6 +14,11 @@
 <body class="d-flex flex-column vh-100" id="body">
     <nav>
         <header>EndNote</header>
+        <div class="container">
+            <hr><hr>
+            Pozdravljen <br> <span id="imeUporabnika"></span>
+            <hr><hr>
+        </div>
         <ul>
             <li onclick="Dashboard()">Dashboard</li>
             <li onclick="Analitika()">Analitika</li>
@@ -31,6 +36,10 @@
         window.addEventListener("DOMContentLoaded", () => {
             if (typeof window.Dashboard === "function") {
                 window.Dashboard();
+                user()
+                .then((result) => {
+                    document.getElementById("imeUporabnika").innerText = result.username;
+                })
             } else {
                 console.error("Analitika ni definirana na window.");
             }

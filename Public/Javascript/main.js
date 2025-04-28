@@ -91,7 +91,7 @@ function Dashboard(){
 
 }
 
-function Analitika(){
+async function Analitika(){
     //Če graf obstaja ga uniči preden ga ponovno nariše, preprečimo memory leak
     if(chartUstanove){
         chartUstanove.destroy();
@@ -106,11 +106,13 @@ function Analitika(){
     //Izbrišemo vsebino elementa da ga pripravimo na novo vsebino
     document.getElementById("Vsebina").innerHTML = '';
 
+    const uporabnik = await user();
+    const isAdmin = uporabnik.Admin;
+
     //POST metoda na strežnik, dobimo SQL query napisan za tale ROUTE
     askServer('Analitika')
     .then(res => res.json())
     .then(data => {
-
         //Ustvarimo in dodamo gumb za novi vnos
         let addButton = document.createElement("button");
                 addButton.innerText="NOV VNOS +";
@@ -150,8 +152,9 @@ function Analitika(){
                 searchContainer.append(label);
                 searchContainer.append(searchBar);
                 searchContainer.append(clearButton);
-        
-        document.getElementById("Vsebina").append(addButton);
+        if(isAdmin){
+            document.getElementById("Vsebina").append(addButton);
+        }
         document.getElementById("Vsebina").append(searchContainer);
 
         //Pripravimo vse potrebne elemente za kreiranje tabele s podatki, ki nam jih je poslal strežnik
@@ -214,9 +217,13 @@ function Analitika(){
                 }
                 tr.append(td);
             })
-            btnTd.append(btn);
-            btnTd.append(btnDel);
-            tr.append(btnTd);
+            console.log(isAdmin);
+            if(isAdmin){
+                btnTd.append(btn);
+                btnTd.append(btnDel);
+                tr.append(btnTd);
+            }
+
             tabelaBody.append(tr);
         });
 
@@ -361,7 +368,7 @@ function Obrazec(){
 }
 
 function novVnos(formData){
-
+    
     orderServer("/Vnos",JSON.stringify(formData),"vnesi");
 
     document.getElementById("Vnos").reset();
@@ -524,11 +531,16 @@ function urediVnos(IdVnosa){
 }
 
 function Odjava(){
-    console.log("odjava");
     askServer("/Odjava");
+}
+
+async function user(){
+    const result = await askServer("/user")
+    return result.json();
 }
 
 window.Dashboard = Dashboard;
 window.Analitika = Analitika;
 window.Obrazec = Obrazec;
 window.Odjava = Odjava;
+window.user = user;
