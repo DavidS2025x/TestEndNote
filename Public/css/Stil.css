@@ -148,4 +148,6 @@ hr{
     margin-bottom: 10px;
 }
 
-
+input::placeholder{
+    color: #dbd4d4 !important;
+}

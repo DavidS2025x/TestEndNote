@@ -133,6 +133,7 @@ function Analitika(){
                     iskanjeTabela(document.getElementById("iskalnoPolje"),document.getElementById("IzpisPB"));
                 }
                 searchBar.className = "form-control";
+                searchBar.placeholder = "Vnesi poljuben niz";
 
         //Ustvarimo nov gumb za izbris iskanja
         let clearButton = document.createElement("button");

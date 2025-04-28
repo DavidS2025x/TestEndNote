@@ -7,9 +7,9 @@ const server = express();
 const pool = mysql.createPool({
     connectionLimit: 10,
     host: 'sql7.freesqldatabase.com',
-    user: 'sql7772553',
-    password: 'FfNiQnPPnW',
-    database: 'sql7772553'
+    user: 'sql7775750',
+    password: 'ktzaxJU9L6',
+    database: 'sql7775750'
 });
 
 server.use(express.urlencoded({ extended: true }));
