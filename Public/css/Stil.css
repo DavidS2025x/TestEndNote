@@ -116,6 +116,7 @@ td > button{
     border-radius: 5px;
     color: white;
     width: 50px;
+    font-weight: normal !important;
 }
 
 label{
@@ -174,3 +175,9 @@ input::placeholder{
     font-weight: bold;
 }
 
+#StNamestitev{
+    height: 200px;
+    width: 200px;
+    background-color: #e8e8e8;
+    border-radius: 5px;
+}

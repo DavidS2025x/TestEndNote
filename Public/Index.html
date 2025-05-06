@@ -61,10 +61,13 @@
                 window.Dashboard();
                 user()
                 .then((result) => {
-                    document.getElementById("imeUporabnika").innerText = result.username;
-                    console.log(result.Admin);
-                    if(result.Admin != 1){
+                    if(result.ID == undefined){
+                        window.location.href = "login.html";
+                    }else{
+                        document.getElementById("imeUporabnika").innerText = result.username;
+                        if(result.Admin != 1){
                         document.getElementById("navigacija").removeChild(document.getElementById("navigacija").children[2]);
+                        }
                     }
                 })
             } else {

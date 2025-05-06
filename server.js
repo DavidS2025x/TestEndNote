@@ -73,7 +73,7 @@ server.post('/user', (req, res) => {
 
 server.post('/analitikaUstanove', async (req, res) => {
     try{
-        let result = await SQLquery("SELECT COUNT(*) AS Stevilo, Ustanova FROM tabnamestitev GROUP BY Ustanova")
+        let result = await SQLquery("SELECT COUNT(*) AS Stevilo, Ustanova FROM tabnamestitev GROUP BY Ustanova ORDER BY Stevilo ASC");
         res.send(result);
     } catch (err){
         console.log(err);
