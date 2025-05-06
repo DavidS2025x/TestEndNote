@@ -30,88 +30,89 @@ function Dashboard(){
     .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
     .then(html => {
         document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+        //Post metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in narišemo graf
+        askServer('analitikaUstanove')
+        .then(res => res.json())
+        .then(data => {
+
+            let QueryData = [];
+            let QueryLabel = [];
+
+            //Razdelimo si rezultate SQL poizvedbe v dva polja, enega z podatki drugega z oznakami. Le te nato pošljemo v funkcijo ki nam izriše graf
+            for(let i = 0; i < data.length; i++){
+                QueryData.push(data[i].Stevilo);
+                QueryLabel.push(data[i].Ustanova);
+            } 
+
+            chartUstanove = chartBar(QueryData,QueryLabel,document.getElementById("StUstanov"));
+
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+        //Post metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in narišemo graf
+        askServer('analitikaOS')
+        .then(res => res.json())
+        .then(data => {
+
+            let QueryData = [];
+            let QueryLabel = [];
+
+            //Razdelimo si rezultate SQL poizvedbe v dva polja, enega z podatki drugega z oznakami. Le te nato pošljemo v funkcijo ki nam izriše graf
+            for(let i = 0; i < data.length; i++){
+                QueryData.push(data[i].Stevilo);
+                QueryLabel.push(data[i].NazivOS);
+            }
+
+            chartOS = chartPie(QueryData,QueryLabel,document.getElementById("StOS"));
+
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+        //Post metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in narišemo graf
+        askServer('analitikaNamestitve')
+        .then(res => res.json())
+        .then(data => {
+
+            let QueryData = [];
+            let QueryLabel = [];
+
+            //Razdelimo si rezultate SQL poizvedbe v dva polja, enega z podatki drugega z oznakami. Le te nato pošljemo v funkcijo ki nam izriše graf
+            for(let i = 0; i < data.length; i++){
+                QueryData.push(data[i].Stevilo);
+                QueryLabel.push(data[i].NazivEndNoteVerzije);
+            }
+            chartUstanove = chartPie(QueryData,QueryLabel,document.getElementById("StEN"));
+        })
+
+        //POST metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in izpišemo
+        askServer('StNamestitev')
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("StNam").innerHTML = data[0].Stevilo;
+        })
+
+        askServer('analitikaSpol')
+        .then(res => res.json())
+        .then(data => {
+            let QueryData = [];
+            let QueryLabel = [];
+
+            //Razdelimo si rezultate SQL poizvedbe v dva polja, enega z podatki drugega z oznakami. Le te nato pošljemo v funkcijo ki nam izriše graf
+            for(let i = 0; i < data.length; i++){
+                QueryData.push(data[i].Stevilo);
+                QueryLabel.push(data[i].Spol);
+            } 
+
+            chartSpol = chartPie(QueryData,QueryLabel,document.getElementById("StSpol"));
+
+        });
     });
     
-    //Post metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in narišemo graf
-    askServer('analitikaUstanove')
-    .then(res => res.json())
-    .then(data => {
-
-        let QueryData = [];
-        let QueryLabel = [];
-
-        //Razdelimo si rezultate SQL poizvedbe v dva polja, enega z podatki drugega z oznakami. Le te nato pošljemo v funkcijo ki nam izriše graf
-        for(let i = 0; i < data.length; i++){
-            QueryData.push(data[i].Stevilo);
-            QueryLabel.push(data[i].Ustanova);
-        } 
-
-        chartUstanove = chartBar(QueryData,QueryLabel,document.getElementById("StUstanov"));
-
-    })
-    .catch(err => {
-        console.log(err);
-    })
-
-    //Post metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in narišemo graf
-    askServer('analitikaOS')
-    .then(res => res.json())
-    .then(data => {
-
-        let QueryData = [];
-        let QueryLabel = [];
-
-        //Razdelimo si rezultate SQL poizvedbe v dva polja, enega z podatki drugega z oznakami. Le te nato pošljemo v funkcijo ki nam izriše graf
-        for(let i = 0; i < data.length; i++){
-            QueryData.push(data[i].Stevilo);
-            QueryLabel.push(data[i].NazivOS);
-        }
-
-        chartOS = chartPie(QueryData,QueryLabel,document.getElementById("StOS"));
-
-    })
-    .catch(err => {
-        console.log(err);
-    })
-
-    //Post metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in narišemo graf
-    askServer('analitikaNamestitve')
-    .then(res => res.json())
-    .then(data => {
-
-        let QueryData = [];
-        let QueryLabel = [];
-
-        //Razdelimo si rezultate SQL poizvedbe v dva polja, enega z podatki drugega z oznakami. Le te nato pošljemo v funkcijo ki nam izriše graf
-        for(let i = 0; i < data.length; i++){
-            QueryData.push(data[i].Stevilo);
-            QueryLabel.push(data[i].NazivEndNoteVerzije);
-        }
-        chartUstanove = chartPie(QueryData,QueryLabel,document.getElementById("StEN"));
-    })
-
-    //POST metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in izpišemo
-    askServer('StNamestitev')
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("StNam").innerHTML = data[0].Stevilo;
-    })
-
-    askServer('analitikaSpol')
-    .then(res => res.json())
-    .then(data => {
-        let QueryData = [];
-        let QueryLabel = [];
-
-        //Razdelimo si rezultate SQL poizvedbe v dva polja, enega z podatki drugega z oznakami. Le te nato pošljemo v funkcijo ki nam izriše graf
-        for(let i = 0; i < data.length; i++){
-            QueryData.push(data[i].Stevilo);
-            QueryLabel.push(data[i].Spol);
-        } 
-
-        chartSpol = chartPie(QueryData,QueryLabel,document.getElementById("StSpol"));
-
-    });
+    
 
 }
 
