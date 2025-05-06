@@ -55,8 +55,5 @@ export async function orderServer(serverOrder,orderContents,orderType) {
         });
         clearTimeout(id);
     }
-
-    console.log(response);
     return await response;
-    
 }

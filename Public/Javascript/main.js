@@ -6,6 +6,8 @@ import {iskanjeTabela, sortirajTabelo} from './tableControl.js';
     let chartOS;
     let chartENVer;
 
+    let modal = new bootstrap.Modal(document.getElementById('mojModal'));
+
 function Dashboard(){
 
     //Če graf obstaja ga uniči preden ga ponovno nariše, preprečimo memory leak
@@ -271,9 +273,12 @@ function Obrazec(){
 
                         if(document.getElementById('StopnjaStudija').disabled){
                             novVnos({"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":"","username":username,"email":email,"EndNoteV":EndNoteV,"OS":OS,"Ustanova":Ustanova,"Datum":Datum});
+                            Obrazec();
                         }else{
                             novVnos({"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":StopnjaStudija,"username":username,"email":email,"EndNoteV":EndNoteV,"OS":OS,"Ustanova":Ustanova,"Datum":Datum});
+                            Obrazec();
                         }
+                        
                         
                         
                     });
@@ -385,10 +390,19 @@ function Obrazec(){
 
 function novVnos(formData){
     
-    orderServer("/Vnos",JSON.stringify(formData),"vnesi").then(req => {
-        console.log(req.status.status);
+    orderServer("/Vnos",JSON.stringify(formData),"vnesi")
+    .then(response => {
+        if (response.ok) {
+            document.getElementById("modalNaslov").innerHTML = "Status Vnosa";
+            document.getElementById("modalVsebina").innerHTML = "Vnos je bil uspešen!";
+            modal.show();
+        } else {
+            console.error("Napaka pri vnosu:", response.statusText);
+            document.getElementById("modalNaslov").innerHTML = "Status Vnosa";
+            document.getElementById("modalVsebina").innerHTML = "Vnos ni bil uspešen!";
+            modal.show();
+        }
     });
-    document.getElementById("Vnos").reset();
 
 };
 
@@ -396,7 +410,9 @@ function IzbrisVnosa(element){
     if(confirm(`Ste prepričani da želite izbrisati vnos z ID ${element.id}?`)){
         orderServer("Izbris",`{"ID":"${element.id}"}`,"izbrisi")
         .then(data => {
-            Analitika(document.getElementById("Vsebina"));
+            setTimeout(() => {
+                Analitika();
+            }, 10);
         });
     }
 }
