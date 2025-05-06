@@ -229,7 +229,15 @@ server.post('/Ustanova', async (req, res) => {
         res.status(500);
     }
 });
-
+server.post('/Uporabnik', async (req, res) => {
+    try{
+        let result = await SQLquery("SELECT * FROM tablogin");
+        res.send(result);
+    }catch{
+        console.log(err);
+        res.status(500);
+    }
+});
 
 server.listen(PORT, () => {
     console.log(`Server listening at Localhost:${PORT}`);

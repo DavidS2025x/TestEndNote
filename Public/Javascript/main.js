@@ -285,8 +285,11 @@ function Obrazec(){
                         
                         if (selectElement.value === 'Študent') {
                             inputElement.disabled = false;
+                            inputElement.required = true;
                         } else {
                             inputElement.disabled = true;
+                            inputElement.required = false;
+                            inputElement.value = null;
                         }
                     });
 
@@ -301,6 +304,7 @@ function Obrazec(){
                         option.textContent = value.StatusUporabnika;
                         target.appendChild(option);
                     });
+                    target.value = null;
                 });
 
                 askServer('Stopnja')
@@ -313,6 +317,7 @@ function Obrazec(){
                         option.textContent = value.StopnjaStudijskegaPrograma;
                         target.appendChild(option);
                     });
+                    target.value = null;
                 });
 
                 
@@ -326,6 +331,7 @@ function Obrazec(){
                         option.textContent = value.NazivEndNoteVerzije;
                         target.appendChild(option);
                     });
+                    target.value = null;
                 });
 
                 askServer('OS')
@@ -338,6 +344,7 @@ function Obrazec(){
                         option.textContent = value.NazivOS;
                         target.appendChild(option);
                     });
+                    target.value = null;
                 });
                 
                 askServer('Ustanova')
@@ -350,6 +357,7 @@ function Obrazec(){
                         option.textContent = value.Kratica;
                         target.appendChild(option);
                     });
+                    target.value = null;
                     //Izberi celoten tekst v inputu, ko nanj pritisnemo
                     document.querySelectorAll("label").forEach(label => {
                         label.addEventListener("click", (e) => {
@@ -363,14 +371,23 @@ function Obrazec(){
                     });
                 });
 
+                user().then(result => {
+                    let username = document.createElement("option");
+                    username.value = result.ID;
+                    username.innerHTML = result.username;
+
+                    document.getElementById("username").appendChild(username);
+                })
+
             })
             .catch(error => console.error('Napaka pri nalaganju vsebine:', error));
 }
 
 function novVnos(formData){
     
-    orderServer("/Vnos",JSON.stringify(formData),"vnesi");
-
+    orderServer("/Vnos",JSON.stringify(formData),"vnesi").then(req => {
+        console.log(req.status.status);
+    });
     document.getElementById("Vnos").reset();
 
 };
@@ -426,19 +443,55 @@ function urediVnos(IdVnosa){
 
                         orderServer("spremeniVnos",JSON.stringify(queryString),"uredi")
                         .then(req => {
+                            console.log(req.status.status);
                             Analitika();
                         })
                 });
 
-                let selectElement = document.getElementById('StatusUporabnika');
+                document.getElementById("Vnos").addEventListener("reset", function(event) {
+                    event.preventDefault();
+                    document.getElementById("Ime").value = result.Ime;
+                    document.getElementById("Priimek").value = result.Priimek;
+                    document.getElementById("Spol").value = result.Spol;
+                    //document.getElementById("username").value = result.OznakaSkrbnika;
+                    document.getElementById("email").value = result.ElektronskaPosta;
+                    document.getElementById("Ustanova").value = result.Ustanova;
+                    document.getElementById("StatusUporabnika").value = result.StatusUporabnika;
+                    if(result.StopnjaStudijskegaPrograma == null){
+                        document.getElementById("StopnjaStudija").value = null;
+                        document.getElementById("StopnjaStudija").disabled = true;
+                    }else{
+                        document.getElementById("StopnjaStudija").value = result.StopnjaStudijskegaPrograma;
+                        document.getElementById("StopnjaStudija").disabled = false;
+                    }
+                    document.getElementById("EndNoteV").value = result.NazivEndNoteVerzije;
+                    document.getElementById("OS").value = result.NazivOS;
+
+                    let danes = new Date().toISOString().split("T")[0];
+                    document.getElementById("Datum").value = danes;
+
+                    user().then(result => {
+                        document.getElementById("username").value = result.ID;
+                    })
+                });
+
+                    let selectElement = document.getElementById('StatusUporabnika');
                     let inputElement = document.getElementById('StopnjaStudija');
+
+                    if(result.StatusUporabnika == "Študent"){
+                        inputElement.disabled = false;
+                        inputElement.required = true;
+                    }
 
                     selectElement.addEventListener('change', function() {
                         
                         if (selectElement.value === 'Študent') {
                             inputElement.disabled = false;
+                            inputElement.required = true;
                         } else {
                             inputElement.disabled = true;
+                            inputElement.required = false;
+                            inputElement.value = null;
                         }
                     });
 
@@ -514,16 +567,19 @@ function urediVnos(IdVnosa){
                     console.log(result.Ustanova)
                 });
 
+                user().then(result => {
+                    let username = document.createElement("option");
+                    username.value = result.ID;
+                    username.innerHTML = result.username;
+
+                    document.getElementById("username").appendChild(username);
+                })
+
                 document.getElementById("Ime").value = result.Ime;
-                console.log(result.Ime)
                 document.getElementById("Priimek").value = result.Priimek;
-                console.log(result.Priimek)
                 document.getElementById("Spol").value = result.Spol;
-                console.log(result.Spol)
                 document.getElementById("username").value = result.OznakaSkrbnika;
-                console.log(result.OznakaOskrbnika)
                 document.getElementById("email").value = result.ElektronskaPosta;
-                console.log(result.ElektronskaPosta)
             });
     });
 
@@ -545,8 +601,61 @@ async function user(){
     return result.json();
 }
 
+function Administracija(){
+    //Če graf obstaja ga uniči preden ga ponovno nariše, preprečimo memory leak
+    if(chartUstanove){
+        chartUstanove.destroy();
+    }
+    if(chartOS){
+        chartOS.destroy();
+    }
+    if(chartENVer){
+        chartENVer.destroy();
+    }
+
+    fetch('/HTML/AdminForm.html')
+            .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+            .then(html => {
+                document.getElementById('Vsebina').innerHTML = html;
+            });
+}
+
+function AdministracijaUporabniki(){
+    askServer('Uporabnik')
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+    })
+}
+function AdministracijaUstanove(){
+    askServer('Ustanova')
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+    })
+}
+function AdministracijaOS(){
+    askServer('OS')
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+    })
+}
+function AdministracijaEndNote(){
+    askServer('EndNote')
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+    })
+}   
+
 window.Dashboard = Dashboard;
 window.Analitika = Analitika;
 window.Obrazec = Obrazec;
 window.Odjava = Odjava;
 window.user = user;
+window.Administracija = Administracija;
+window.AdministracijaUporabniki = AdministracijaUporabniki;
+window.AdministracijaUstanove = AdministracijaUstanove; 
+window.AdministracijaOS = AdministracijaOS;
+window.AdministracijaEndNote = AdministracijaEndNote;

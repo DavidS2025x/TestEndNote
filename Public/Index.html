@@ -19,9 +19,10 @@
             Pozdravljen <br> <span id="imeUporabnika"></span>
             <hr><hr>
         </div>
-        <ul>
+        <ul id = "navigacija">
             <li onclick="Dashboard()">Dashboard</li>
             <li onclick="Analitika()">Analitika</li>
+            <li onclick="Administracija()">Administracija</li>
             <li onclick="Odjava()" class="danger">Odjava</li>
         </ul>
         <footer>EndNote v1.0</footer>
@@ -39,6 +40,10 @@
                 user()
                 .then((result) => {
                     document.getElementById("imeUporabnika").innerText = result.username;
+                    console.log(result.Admin);
+                    if(result.Admin != 1){
+                        document.getElementById("navigacija").removeChild(document.getElementById("navigacija").children[2]);
+                    }
                 })
             } else {
                 console.error("Analitika ni definirana na window.");

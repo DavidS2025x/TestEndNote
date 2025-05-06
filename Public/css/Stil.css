@@ -1,4 +1,19 @@
+button{
+    background-color: #FC814A !important;
+    color: white !important;
+    font-weight: bold !important;
+}
 
+#username{
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background: none !important;
+}
+
+#username:disabled{
+    background-color: #e9ecef !important;
+}
 
 nav{
     height: 100%;
@@ -158,3 +173,4 @@ input::placeholder{
     color: white;
     font-weight: bold;
 }
+
