@@ -181,3 +181,13 @@ input::placeholder{
     background-color: #e8e8e8;
     border-radius: 5px;
 }
+
+#StNamestitev :nth-child(1){
+    font-weight: bolder;
+    font-size:50px;
+}
+
+#StNamestitev :nth-child(2){
+    font-weight: bold;
+    font-size:30px;
+}

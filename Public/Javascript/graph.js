@@ -1,3 +1,5 @@
+Chart.register(ChartDataLabels);
+
 export function chartBar(data,label,ctx){
     return new Chart(ctx, {
         type: 'bar',
@@ -21,11 +23,16 @@ export function chartBar(data,label,ctx){
                     }
                 }],
                 x: {
-                    display: false
+                    display: true
                 }
             },
-            legend: {
-                display: false
+            plugins:{
+                legend: {
+                    display: false
+                },
+                datalabels: {
+                    display: false
+                }
             }
         }
     });
@@ -55,11 +62,47 @@ export function chartPie(data, label, ctx){
             '#da304c',
             '#f0563b'
         ],
-        borderWidth: 1
+        borderWidth: 0.5
         }]
     },
     options: {
-        responsive: true
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    color:'rgb(0, 0, 0)',
+                    font: {
+                        size: 14,
+                        family: 'Arial'
+                    },
+                    boxWidth: 20
+                },
+                display: true
+            },
+            title: {
+                display: false
+            },
+            datalabels: {
+                display: true, // omogoči prikaz številk
+                color: '#fff', // barva številk
+                font: {
+                  weight: 'bold',
+                  size: 16,
+                },
+                formatter: (value) => {
+                    return value; // prikaži samo vrednosti, lahko dodaš formatiranje
+                  }
+            },
+        },
+        layout: {
+            padding: {
+              top: 10,
+              right: 10,
+              bottom: 10,
+              left: 10,
+        }},
+        responsive: true,
+        cutout: '50%'
     }
     });
 }

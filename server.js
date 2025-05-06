@@ -101,6 +101,16 @@ server.post('/analitikaNamestitve', async (req, res) => {
     }
 });
 
+server.post('/analitikaSpol', async (req, res) => {
+    try{
+        let result = await SQLquery("SELECT COUNT(*) AS Stevilo, Spol FROM tabnamestitev GROUP BY Spol");
+        res.send(result);
+    } catch (err){
+        console.log(err);
+        res.status(500);
+    }
+});
+
 server.post('/StNamestitev', async (req, res) => {
     try{
         let result = await SQLquery("select COUNT(*) AS Stevilo FROM tabnamestitev");

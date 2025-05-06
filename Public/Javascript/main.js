@@ -5,6 +5,7 @@ import {iskanjeTabela, sortirajTabelo} from './tableControl.js';
     let chartUstanove;
     let chartOS;
     let chartENVer;
+    let chartSpol;
 
     let modal = new bootstrap.Modal(document.getElementById('mojModal'));
 
@@ -20,9 +21,16 @@ function Dashboard(){
     if(chartENVer){
         chartENVer.destroy();
     }
+    if(chartSpol){
+        chartSpol.destroy();
+    }
 
     //Vsebino elementa pobrišemo in vanj vstavimo ostale potrebne elemente
-    document.getElementById("Vsebina").innerHTML = '<div class="row flex-grow-1"><div class="col d-flex justify-content-center"><canvas id="StUstanov"  style="width:100%;max-width:700px"></canvas></div></div><div class="row flex-grow-1"><div class="col"><canvas id="StOS" style="width:100%;max-width:700px"></canvas></div><div class="col d-flex flex-column justify-content-center align-items-center"><div class = "display-4" id = "StNamLab"></div><div class = "display-4 font-weight-bold" id = "StNam"></div></div><div class="col"><canvas id="StEN" style="width:100%;max-width:700px"></canvas></div></div>'
+    fetch('/HTML/Dashboard.html')
+    .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+    .then(html => {
+        document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+    });
     
     //Post metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in narišemo graf
     askServer('analitikaUstanove')
@@ -79,17 +87,31 @@ function Dashboard(){
             QueryData.push(data[i].Stevilo);
             QueryLabel.push(data[i].NazivEndNoteVerzije);
         }
-        chartPie(QueryData,QueryLabel,document.getElementById("StEN"));
+        chartUstanove = chartPie(QueryData,QueryLabel,document.getElementById("StEN"));
     })
 
     //POST metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in izpišemo
     askServer('StNamestitev')
     .then(res => res.json())
     .then(data => {
-        console.log(data);
-        document.getElementById("StNamLab").innerHTML = "NAMESTITVE:";
         document.getElementById("StNam").innerHTML = data[0].Stevilo;
     })
+
+    askServer('analitikaSpol')
+    .then(res => res.json())
+    .then(data => {
+        let QueryData = [];
+        let QueryLabel = [];
+
+        //Razdelimo si rezultate SQL poizvedbe v dva polja, enega z podatki drugega z oznakami. Le te nato pošljemo v funkcijo ki nam izriše graf
+        for(let i = 0; i < data.length; i++){
+            QueryData.push(data[i].Stevilo);
+            QueryLabel.push(data[i].Spol);
+        } 
+
+        chartSpol = chartPie(QueryData,QueryLabel,document.getElementById("StSpol"));
+
+    });
 
 }
 
