@@ -48,7 +48,7 @@ function Dashboard(){
 
         })
         .catch(err => {
-            console.log(err);
+            
         })
 
         //Post metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in narišemo graf
@@ -69,7 +69,7 @@ function Dashboard(){
 
         })
         .catch(err => {
-            console.log(err);
+            
         })
 
         //Post metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in narišemo graf
@@ -448,7 +448,7 @@ function urediVnos(IdVnosa){
     .then(req => req.json())
     .then(dataTemp => {
         result = dataTemp[0];
-        console.log(result);
+        
         fetch('/HTML/NewForm.html')
             .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
             .then(html => {
@@ -482,7 +482,6 @@ function urediVnos(IdVnosa){
 
                         orderServer("spremeniVnos",JSON.stringify(queryString),"uredi")
                         .then(req => {
-                            console.log(req.status.status);
                             Analitika();
                         })
                 });
@@ -546,7 +545,6 @@ function urediVnos(IdVnosa){
                         target.appendChild(option);
                     });
                     document.getElementById("StatusUporabnika").value = result.StatusUporabnika;
-                    console.log(result.StatusUporabnika)
                 });
 
                 askServer('Stopnja')
@@ -560,7 +558,6 @@ function urediVnos(IdVnosa){
                         target.appendChild(option);
                     });
                     document.getElementById("StopnjaStudija").value = result.StopnjaStudijskegaPrograma;
-                    console.log(result.StopnjaStudijskegaPrograma)
                 });
 
                 
@@ -575,7 +572,6 @@ function urediVnos(IdVnosa){
                         target.appendChild(option);
                     });
                     document.getElementById("EndNoteV").value = result.NazivEndNoteVerzije;
-                    console.log(result.NazivEndNoteVerzije)
                 });
 
                 askServer('OS')
@@ -589,7 +585,6 @@ function urediVnos(IdVnosa){
                         target.appendChild(option);
                     });
                     document.getElementById("OS").value = result.NazivOS;
-                    console.log(result.NazivOS)
                 });
                 
                 askServer('Ustanova')
@@ -603,7 +598,6 @@ function urediVnos(IdVnosa){
                         target.appendChild(option);
                     });
                     document.getElementById("Ustanova").value = result.Ustanova;
-                    console.log(result.Ustanova)
                 });
 
                 user().then(result => {
@@ -684,8 +678,6 @@ function AdministracijaUporabniki(){
         //Administracija Izbris
         document.getElementById("AdminIzbris").innerHTML = '';
 
-        console.log(data);
-
         let tabela = document.createElement('table');
         tabela.className = "table table-sm";
         tabela.id = "SifrantTabela"
@@ -695,7 +687,6 @@ function AdministracijaUporabniki(){
 
         //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
         Object.entries(data[0]).forEach(([key, value]) => {
-            console.log(key);
             let tabelaHeadTd = document.createElement('th');
             tabelaHeadTd.innerHTML = key;
             tabelaHeadTr.append(tabelaHeadTd);
@@ -776,8 +767,6 @@ function AdministracijaUstanove(){
         //Administracija Izbris
         document.getElementById("AdminIzbris").innerHTML = '';
 
-        console.log(data);
-
         let tabela = document.createElement('table');
         tabela.className = "table table-sm";
         tabela.id = "SifrantTabela"
@@ -787,7 +776,6 @@ function AdministracijaUstanove(){
 
         //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
         Object.entries(data[0]).forEach(([key, value]) => {
-            console.log(key);
             let tabelaHeadTd = document.createElement('th');
             tabelaHeadTd.innerHTML = key;
             tabelaHeadTr.append(tabelaHeadTd);
@@ -859,8 +847,6 @@ function AdministracijaOS(){
         //Administracija Izbris
         document.getElementById("AdminIzbris").innerHTML = '';
 
-        console.log(data);
-
         let tabela = document.createElement('table');
         tabela.className = "table table-sm";
         tabela.id = "SifrantTabela"
@@ -870,7 +856,6 @@ function AdministracijaOS(){
 
         //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
         Object.entries(data[0]).forEach(([key, value]) => {
-            console.log(key);
             let tabelaHeadTd = document.createElement('th');
             tabelaHeadTd.innerHTML = key;
             tabelaHeadTr.append(tabelaHeadTd);
@@ -940,8 +925,6 @@ function AdministracijaEndNote(){
         //Administracija Izbris
         document.getElementById("AdminIzbris").innerHTML = '';
 
-        console.log(data);
-
         let tabela = document.createElement('table');
         tabela.className = "table table-sm";
         tabela.id = "SifrantTabela"
@@ -951,7 +934,6 @@ function AdministracijaEndNote(){
 
         //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
         Object.entries(data[0]).forEach(([key, value]) => {
-            console.log(key);
             let tabelaHeadTd = document.createElement('th');
             tabelaHeadTd.innerHTML = key;
             tabelaHeadTr.append(tabelaHeadTd);

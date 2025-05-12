@@ -38,15 +38,12 @@ server.post('/login', async (req, res) => {
         req.session.ID = result[0].OznakaSkrbnika;
         req.session.Admin = result[0].Admin;
         res.redirect('/Index.html');
-        console.log("uspeh");
     }else{
-        console.log("napaka");
         res.redirect('/login.html');
     }
 });
 
 server.post('/Odjava', (req, res) => {
-    console.log("odjava");
     req.session.destroy((err) => {
         if(err){
             console.log(err);
@@ -58,16 +55,6 @@ server.post('/Odjava', (req, res) => {
 });
 
 server.post('/user', (req, res) => {
-    /*
-    res.json({
-        username: req.session.Username,
-        ID: req.session.ID,
-        Admin: req.session.Admin
-    });
-    */
-    console.log(req.session.Username);
-    console.log(req.session.ID);
-    console.log(req.session.Admin);
     res.send({"username": req.session.Username, "ID": req.session.ID, "Admin": req.session.Admin});
 })
 
@@ -168,7 +155,6 @@ server.post('/Izbris', async (req, res) => {
 server.post('/pridobiVnos', async (req, res) => {
     try{
         let id = req.body.ID
-        console.log(id)
         let result = await SQLquery(`SELECT * FROM tabnamestitev WHERE IdNamestitve = '${id}'`);
         res.send(result);
     }catch(err){
@@ -178,7 +164,6 @@ server.post('/pridobiVnos', async (req, res) => {
 
 server.post('/spremeniVnos', async (req, res) => {
     try{
-        console.log(req.body.Ime);
         let result;
         if(req.body.StopnjaStudija == ""){
             result = await SQLquery(`UPDATE tabnamestitev SET Ime = '${req.body.Ime}', Priimek = '${req.body.Priimek}', Spol = '${req.body.Spol}', ElektronskaPosta = '${req.body.email}', Ustanova = '${req.body.Ustanova}', NazivOS = '${req.body.OS}', NazivEndNoteVerzije = '${req.body.EndNoteV}', StatusUporabnika = '${req.body.StatusUporabnika}', ClanicaNamestitve = 'UKM', StopnjaStudijskegaPrograma = NULL, OznakaSkrbnika = '${req.body.username}', DatumSpremembe = '${req.body.Datum}' WHERE IdNamestitve = '${req.body.ID}'`)
