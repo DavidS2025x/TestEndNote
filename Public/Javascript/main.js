@@ -670,6 +670,16 @@ function AdministracijaUporabniki(){
         .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
         .then(html => {
             document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
+            document.querySelectorAll("label").forEach(label => {
+                label.addEventListener("click", (e) => {
+                    const inputId = label.getAttribute("for");
+                    const input = document.getElementById(inputId);
+                    if (input && input.select) {
+                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
+                        setTimeout(() => input.select(), 0);
+                    }
+                });
+            });
         });
         //Administracija Izbris
         document.getElementById("AdminIzbris").innerHTML = '';
@@ -729,6 +739,17 @@ function AdministracijaUporabniki(){
         tabela.append(tabelaBody);
         document.getElementById("AdminIzbris").append(tabela);
 
+        document.querySelectorAll("label").forEach(label => {
+            label.addEventListener("click", (e) => {
+                const inputId = label.getAttribute("for");
+                const input = document.getElementById(inputId);
+                if (input && input.select) {
+                    // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
+                    setTimeout(() => input.select(), 0);
+                }
+            });
+        });
+
     })
 }
 function AdministracijaUstanove(){
@@ -741,6 +762,16 @@ function AdministracijaUstanove(){
         .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
         .then(html => {
             document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
+            document.querySelectorAll("label").forEach(label => {
+                label.addEventListener("click", (e) => {
+                    const inputId = label.getAttribute("for");
+                    const input = document.getElementById(inputId);
+                    if (input && input.select) {
+                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
+                        setTimeout(() => input.select(), 0);
+                    }
+                });
+            });
         });
         //Administracija Izbris
         document.getElementById("AdminIzbris").innerHTML = '';
@@ -800,6 +831,8 @@ function AdministracijaUstanove(){
         tabela.append(tabelaBody);
         document.getElementById("AdminIzbris").append(tabela);
 
+        
+
     })
 }
 function AdministracijaOS(){
@@ -812,6 +845,16 @@ function AdministracijaOS(){
         .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
         .then(html => {
             document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
+            document.querySelectorAll("label").forEach(label => {
+                label.addEventListener("click", (e) => {
+                    const inputId = label.getAttribute("for");
+                    const input = document.getElementById(inputId);
+                    if (input && input.select) {
+                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
+                        setTimeout(() => input.select(), 0);
+                    }
+                });
+            });
         });
         //Administracija Izbris
         document.getElementById("AdminIzbris").innerHTML = '';
@@ -883,6 +926,16 @@ function AdministracijaEndNote(){
         .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
         .then(html => {
             document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
+            document.querySelectorAll("label").forEach(label => {
+                label.addEventListener("click", (e) => {
+                    const inputId = label.getAttribute("for");
+                    const input = document.getElementById(inputId);
+                    if (input && input.select) {
+                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
+                        setTimeout(() => input.select(), 0);
+                    }
+                });
+            });
         });
         //Administracija Izbris
         document.getElementById("AdminIzbris").innerHTML = '';
