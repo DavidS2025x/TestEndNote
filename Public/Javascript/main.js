@@ -242,7 +242,7 @@ async function Analitika(){
                 }
                 tr.append(td);
             })
-            console.log(isAdmin);
+
             if(isAdmin){
                 btnTd.append(btn);
                 btnTd.append(btnDel);
@@ -656,6 +656,7 @@ function Administracija(){
             .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
             .then(html => {
                 document.getElementById('Vsebina').innerHTML = html;
+                AdministracijaUporabniki();
             });
 }
 
@@ -663,28 +664,284 @@ function AdministracijaUporabniki(){
     askServer('Uporabnik')
     .then(res => res.json())
     .then(data => {
+        //Administracija Vnos
+        document.getElementById("AdminVnos").innerHTML = '';
+        fetch('/HTML/AdminUser.html')
+        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+        .then(html => {
+            document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
+        });
+        //Administracija Izbris
+        document.getElementById("AdminIzbris").innerHTML = '';
+
         console.log(data);
+
+        let tabela = document.createElement('table');
+        tabela.className = "table table-sm";
+        tabela.id = "SifrantTabela"
+
+        let tabelaHead = document.createElement('thead');
+        let tabelaHeadTr = document.createElement('tr');
+
+        //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
+        Object.entries(data[0]).forEach(([key, value]) => {
+            console.log(key);
+            let tabelaHeadTd = document.createElement('th');
+            tabelaHeadTd.innerHTML = key;
+            tabelaHeadTr.append(tabelaHeadTd);
+        });
+
+        let tabelaHeadBtn = document.createElement('th');
+        tabelaHeadTr.append(tabelaHeadBtn)
+
+        tabelaHead.append(tabelaHeadTr);
+        tabela.append(tabelaHead);
+
+        let tabelaBody = document.createElement('tbody');
+
+        data.forEach((data) => {
+            let tr = document.createElement('tr')
+
+            let btnDel = document.createElement('button');
+            btnDel.textContent = "Izbriši";
+            btnDel.onclick = function(){
+                IzbrisVnosa(document.getElementById(this.id),document.getElementById(this.className));
+            }
+
+            let btnTd = document.createElement('td');
+
+            Object.entries(data).forEach(([key, value]) => {
+                let td = document.createElement('td');
+                td.textContent = `${value}`;
+                if(btnDel.id == ''){
+                    btnDel.id = `${value}`;
+                    btnDel.className = `tabLogin`;
+                }
+                tr.append(td);
+            })
+
+            btnTd.append(btnDel);
+            tr.append(btnTd);
+
+            tabelaBody.append(tr);
+        });
+
+        tabela.append(tabelaBody);
+        document.getElementById("AdminIzbris").append(tabela);
+
     })
 }
 function AdministracijaUstanove(){
     askServer('Ustanova')
     .then(res => res.json())
     .then(data => {
+        //Administracija Vnos
+        document.getElementById("AdminVnos").innerHTML = '';
+        fetch('/HTML/AdminUstanove.html')
+        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+        .then(html => {
+            document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
+        });
+        //Administracija Izbris
+        document.getElementById("AdminIzbris").innerHTML = '';
+
         console.log(data);
+
+        let tabela = document.createElement('table');
+        tabela.className = "table table-sm";
+        tabela.id = "SifrantTabela"
+
+        let tabelaHead = document.createElement('thead');
+        let tabelaHeadTr = document.createElement('tr');
+
+        //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
+        Object.entries(data[0]).forEach(([key, value]) => {
+            console.log(key);
+            let tabelaHeadTd = document.createElement('th');
+            tabelaHeadTd.innerHTML = key;
+            tabelaHeadTr.append(tabelaHeadTd);
+        });
+
+        let tabelaHeadBtn = document.createElement('th');
+        tabelaHeadTr.append(tabelaHeadBtn)
+
+        tabelaHead.append(tabelaHeadTr);
+        tabela.append(tabelaHead);
+
+        let tabelaBody = document.createElement('tbody');
+
+        data.forEach((data) => {
+            let tr = document.createElement('tr')
+
+            let btnDel = document.createElement('button');
+            btnDel.textContent = "Izbriši";
+            btnDel.onclick = function(){
+                IzbrisVnosa(document.getElementById(this.id),document.getElementById(this.className));
+            }
+
+            let btnTd = document.createElement('td');
+
+            Object.entries(data).forEach(([key, value]) => {
+                let td = document.createElement('td');
+                td.textContent = `${value}`;
+                if(btnDel.id == ''){
+                    btnDel.id = `${value}`;
+                    btnDel.className = `tabUstanove`;
+                }
+                tr.append(td);
+            })
+
+            btnTd.append(btnDel);
+            tr.append(btnTd);
+
+            tabelaBody.append(tr);
+        });
+
+        tabela.append(tabelaBody);
+        document.getElementById("AdminIzbris").append(tabela);
+
     })
 }
 function AdministracijaOS(){
     askServer('OS')
     .then(res => res.json())
     .then(data => {
+        //Administracija Vnos
+        document.getElementById("AdminVnos").innerHTML = '';
+        fetch('/HTML/AdminOS.html')
+        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+        .then(html => {
+            document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
+        });
+        //Administracija Izbris
+        document.getElementById("AdminIzbris").innerHTML = '';
+
         console.log(data);
+
+        let tabela = document.createElement('table');
+        tabela.className = "table table-sm";
+        tabela.id = "SifrantTabela"
+
+        let tabelaHead = document.createElement('thead');
+        let tabelaHeadTr = document.createElement('tr');
+
+        //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
+        Object.entries(data[0]).forEach(([key, value]) => {
+            console.log(key);
+            let tabelaHeadTd = document.createElement('th');
+            tabelaHeadTd.innerHTML = key;
+            tabelaHeadTr.append(tabelaHeadTd);
+        });
+
+        let tabelaHeadBtn = document.createElement('th');
+        tabelaHeadTr.append(tabelaHeadBtn)
+
+        tabelaHead.append(tabelaHeadTr);
+        tabela.append(tabelaHead);
+
+        let tabelaBody = document.createElement('tbody');
+
+        data.forEach((data) => {
+            let tr = document.createElement('tr')
+
+            let btnDel = document.createElement('button');
+            btnDel.textContent = "Izbriši";
+            btnDel.onclick = function(){
+                IzbrisVnosa(document.getElementById(this.className));
+            }
+
+            let btnTd = document.createElement('td');
+
+            Object.entries(data).forEach(([key, value]) => {
+                let td = document.createElement('td');
+                td.textContent = `${value}`;
+                if(btnDel.id == ''){
+                    btnDel.id = `${value}`;
+                    btnDel.className = `tabOS`;
+                }
+                tr.append(td);
+            })
+
+            btnTd.append(btnDel);
+            tr.append(btnTd);
+
+            tabelaBody.append(tr);
+        });
+
+        tabela.append(tabelaBody);
+        document.getElementById("AdminIzbris").append(tabela);
+
     })
 }
 function AdministracijaEndNote(){
     askServer('EndNote')
     .then(res => res.json())
     .then(data => {
+        //Administracija Vnos
+        document.getElementById("AdminVnos").innerHTML = '';
+        fetch('/HTML/AdminEN.html')
+        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+        .then(html => {
+            document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
+        });
+        //Administracija Izbris
+        document.getElementById("AdminIzbris").innerHTML = '';
+
         console.log(data);
+
+        let tabela = document.createElement('table');
+        tabela.className = "table table-sm";
+        tabela.id = "SifrantTabela"
+
+        let tabelaHead = document.createElement('thead');
+        let tabelaHeadTr = document.createElement('tr');
+
+        //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
+        Object.entries(data[0]).forEach(([key, value]) => {
+            console.log(key);
+            let tabelaHeadTd = document.createElement('th');
+            tabelaHeadTd.innerHTML = key;
+            tabelaHeadTr.append(tabelaHeadTd);
+        });
+
+        let tabelaHeadBtn = document.createElement('th');
+        tabelaHeadTr.append(tabelaHeadBtn)
+
+        tabelaHead.append(tabelaHeadTr);
+        tabela.append(tabelaHead);
+
+        let tabelaBody = document.createElement('tbody');
+
+        data.forEach((data) => {
+            let tr = document.createElement('tr')
+
+            let btnDel = document.createElement('button');
+            btnDel.textContent = "Izbriši";
+            btnDel.onclick = function(){
+                IzbrisVnosa(document.getElementById(this.className));
+            }
+
+            let btnTd = document.createElement('td');
+
+            Object.entries(data).forEach(([key, value]) => {
+                let td = document.createElement('td');
+                td.textContent = `${value}`;
+                if(btnDel.id == ''){
+                    btnDel.id = `${value}`;
+                    btnDel.className = `tabEndNote`;
+                }
+                tr.append(td);
+            })
+
+            btnTd.append(btnDel);
+            tr.append(btnTd);
+
+            tabelaBody.append(tr);
+        });
+
+        tabela.append(tabelaBody);
+        document.getElementById("AdminIzbris").append(tabela);
+
     })
 }   
 

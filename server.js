@@ -158,11 +158,9 @@ server.post('/Vnos', async (req, res) => {
 server.post('/Izbris', async (req, res) => {
     try{
         let Id = req.body.ID;
-        console.log(Id);
         SQLquery(`DELETE FROM tabnamestitev WHERE IdNamestitve = '${Id}';`)
         res.status(200).json({ success: true });
     }catch(err){
-        console.log(err)
         res.status(500).json({ success: false });
     }
 });
@@ -247,6 +245,11 @@ server.post('/Uporabnik', async (req, res) => {
         console.log(err);
         res.status(500);
     }
+});
+
+server.post('/IzbrisSifranta', async (req, res) => {
+    let id = req.body.ID;
+    
 });
 
 server.listen(PORT, () => {
