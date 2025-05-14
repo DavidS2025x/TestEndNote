@@ -121,7 +121,7 @@ td > button{
 
 label{
     width: 125px !important;
-    text-align: center !important;
+    text-align: left !important;
     margin: 0 !important;
     background-color: #564256;
     margin-right: 10px !important;

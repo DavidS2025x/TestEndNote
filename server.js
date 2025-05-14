@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000;
 const server = express();
 const session = require("express-session");
 const bodyParser = require("body-parser");
+const e = require("express");
 
 const pool = mysql.createPool({
     connectionLimit: 10,
@@ -232,9 +233,106 @@ server.post('/Uporabnik', async (req, res) => {
     }
 });
 
-server.post('/IzbrisSifranta', async (req, res) => {
-    let id = req.body.ID;
+server.post('/AdminIzbris', async (req, res) => {
+    let ID = req.body.ID;
+    let Tabela = req.body.Tabela;
+    console.log("Sedaj smo tukaj");
+    console.log(ID);
+    console.log(Tabela);
+    if(Tabela == "tablogin"){
+        try{
+            let result = await SQLquery(`DELETE FROM ${Tabela} WHERE OznakaSkrbnika = '${ID}'`);
+            res.status(200);
+            res.send(result);
+        }catch(err){
+            res.status(500);
+            res.send(result);
+        }
+    }else if(Tabela == "tabustanove"){
+        try{
+            let result = await SQLquery(`DELETE FROM ${Tabela} WHERE Kratica = '${ID}'`);
+            res.status(200);
+            res.send(result);
+        }catch(err){
+            res.status(500);
+            res.send(result);
+        }
+    }else if(Tabela == "tabos"){
+        try{
+            let result = await SQLquery(`DELETE FROM ${Tabela} WHERE NazivOS = '${ID}'`);
+            res.status(200);
+            res.send(result);
+        }catch(err){
+            res.status(500);
+            res.send(result);
+        }
+    }else if(Tabela == "tabendnote"){
+        try{
+            let result = await SQLquery(`DELETE FROM ${Tabela} WHERE NazivEndNoteVerzije = '${ID}'`);
+            res.status(200);
+            res.send(result);
+        }catch(err){
+            res.status(500);
+            res.send(result);
+        }
+    }
     
+});
+
+server.post('/AdminVnosUser', async (req, res) => {
+    let vnos = req.body;
+    try{
+        console.log(vnos);
+
+        if(vnos.Admin == "on"){
+            console.log("Admin je ON");
+            let result = await SQLquery(`INSERT INTO tablogin(OznakaSkrbnika,Username,Password,Admin) VALUES("${vnos.OznakaSkrbnika}","${vnos.Username}","${vnos.Password}","1")`);
+        }else{
+            console.log("Admin je OFF");
+            let result = await SQLquery(`INSERT INTO tablogin(OznakaSkrbnika,Username,Password,Admin) VALUES("${vnos.OznakaSkrbnika}","${vnos.Username}","${vnos.Password}","0")`);
+        }
+        res.send(result);
+        res.status(200);
+    }catch(err){
+        res.send(err);
+        res.status(500)
+    }
+});
+
+server.post('/AdminVnosUstanove', async (req, res) => {
+    let vnos = req.body;
+    try{
+        let result = await SQLquery(`INSERT INTO tabustanove(Kratica,NazivPS,Ulica) VALUES("${vnos.Kratica}","${vnos.NazivPS}","${vnos.Ulica}")`);
+        res.send(result);
+        res.status(200);
+    }catch(err){
+        res.send(err);
+        res.status(500)
+    }
+});
+
+server.post('/AdminVnosOS', async (req, res) => {
+    let vnos = req.body;
+    try{
+        let result = await SQLquery(`INSERT INTO tabos(NazivOS,NazivOSAngl) VALUES("${vnos.NazivOS}","${vnos.NazivOSAngl}")`);
+        res.send(result);
+        res.status(200);
+    }catch(err){
+        res.send(err);
+        res.status(500)
+    }
+});
+
+server.post('/AdminVnosEN', async (req, res) => {
+    let vnos = req.body;
+    try{
+        let result = await SQLquery(`INSERT INTO tabendnote(NazivEndNoteVerzije) VALUES("${vnos.NazivEndNoteVerzije}")`);
+        res.send(result);
+        res.status(200);
+    }catch(err){
+        res.send(err);
+        res.status(500)
+    }
 });
 
 server.listen(PORT, () => {

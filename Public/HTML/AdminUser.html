@@ -1,19 +1,26 @@
-<form action="AdminVnos" method="post" id="Vnos">
+<form action="/AdminVnosUser" method="post" id="Vnos">
+    <hr><hr>
+    <div class = "mb-2 mt-2 d-flex flex-column">
+        <label for="OznakaSkrbnika">ID Skrbnika</label>
+        <input type="text" name="OznakaSkrbnika" id="OznakaSkrbnika" class="form-control" required>
+    </div>
+    <hr>
     <div class = "mb-2 mt-2 d-flex flex-column">
         <label for="Username">Username</label>
         <input type="text" name="Username" id="Username" class="form-control" required>
     </div>
-    <hr><hr>
+    <hr>
     <div class = "mb-2 mt-2 d-flex flex-column">
         <label for="Password">Password</label>
         <input type="text" name="Password" id="Password" class="form-control" required>
     </div>
-    <hr><hr>
+    <hr>
     <div class = "mb-2 mt-2 d-flex align-items-center">
         <label for="Admin">Admin</label>
         <input type="checkbox" name="Admin" id="Admin" class="form-check-input mb-2">
     </div>
+    <hr><hr>
     <input type="reset" value="Ponastavi" id="obrazecPonastavi">
     <input type="submit" value="Vnesi" id="obrazecPotrdi">
-    <input type="text" name="Tabela" id="Tabela" class="form-control" value="tabLogin" hidden>
+    <input type="text" name="Tabela" id="Tabela" class="form-control" value="tablogin" hidden>
 </form>

@@ -674,6 +674,29 @@ function AdministracijaUporabniki(){
                     }
                 });
             });
+            document.getElementById("Vnos").addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    
+                    const form = event.target;
+                    const formData = new FormData(form);
+
+                    const data = {};
+                    for(const [key, value] of formData.entries()) {
+                        data[key] = value;
+                    }
+
+                    fetch('/AdminVnosUser', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    }).then(res => {
+                        setTimeout(() => {
+                            AdministracijaUporabniki();
+                        }, 100);
+                    });
+            });
         });
         //Administracija Izbris
         document.getElementById("AdminIzbris").innerHTML = '';
@@ -706,7 +729,7 @@ function AdministracijaUporabniki(){
             let btnDel = document.createElement('button');
             btnDel.textContent = "Izbriši";
             btnDel.onclick = function(){
-                IzbrisVnosa(document.getElementById(this.id),document.getElementById(this.className));
+                IzbrisAdmin(this);
             }
 
             let btnTd = document.createElement('td');
@@ -716,7 +739,7 @@ function AdministracijaUporabniki(){
                 td.textContent = `${value}`;
                 if(btnDel.id == ''){
                     btnDel.id = `${value}`;
-                    btnDel.className = `tabLogin`;
+                    btnDel.className = `tablogin`;
                 }
                 tr.append(td);
             })
@@ -763,85 +786,28 @@ function AdministracijaUstanove(){
                     }
                 });
             });
-        });
-        //Administracija Izbris
-        document.getElementById("AdminIzbris").innerHTML = '';
+            document.getElementById("Vnos").addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    
+                    const form = event.target;
+                    const formData = new FormData(form);
 
-        let tabela = document.createElement('table');
-        tabela.className = "table table-sm";
-        tabela.id = "SifrantTabela"
-
-        let tabelaHead = document.createElement('thead');
-        let tabelaHeadTr = document.createElement('tr');
-
-        //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
-        Object.entries(data[0]).forEach(([key, value]) => {
-            let tabelaHeadTd = document.createElement('th');
-            tabelaHeadTd.innerHTML = key;
-            tabelaHeadTr.append(tabelaHeadTd);
-        });
-
-        let tabelaHeadBtn = document.createElement('th');
-        tabelaHeadTr.append(tabelaHeadBtn)
-
-        tabelaHead.append(tabelaHeadTr);
-        tabela.append(tabelaHead);
-
-        let tabelaBody = document.createElement('tbody');
-
-        data.forEach((data) => {
-            let tr = document.createElement('tr')
-
-            let btnDel = document.createElement('button');
-            btnDel.textContent = "Izbriši";
-            btnDel.onclick = function(){
-                IzbrisVnosa(document.getElementById(this.id),document.getElementById(this.className));
-            }
-
-            let btnTd = document.createElement('td');
-
-            Object.entries(data).forEach(([key, value]) => {
-                let td = document.createElement('td');
-                td.textContent = `${value}`;
-                if(btnDel.id == ''){
-                    btnDel.id = `${value}`;
-                    btnDel.className = `tabUstanove`;
-                }
-                tr.append(td);
-            })
-
-            btnTd.append(btnDel);
-            tr.append(btnTd);
-
-            tabelaBody.append(tr);
-        });
-
-        tabela.append(tabelaBody);
-        document.getElementById("AdminIzbris").append(tabela);
-
-        
-
-    })
-}
-function AdministracijaOS(){
-    askServer('OS')
-    .then(res => res.json())
-    .then(data => {
-        //Administracija Vnos
-        document.getElementById("AdminVnos").innerHTML = '';
-        fetch('/HTML/AdminOS.html')
-        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
-        .then(html => {
-            document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
-            document.querySelectorAll("label").forEach(label => {
-                label.addEventListener("click", (e) => {
-                    const inputId = label.getAttribute("for");
-                    const input = document.getElementById(inputId);
-                    if (input && input.select) {
-                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
-                        setTimeout(() => input.select(), 0);
+                    const data = {};
+                    for(const [key, value] of formData.entries()) {
+                        data[key] = value;
                     }
-                });
+
+                    fetch('/AdminVnosUstanove', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    }).then(res => {
+                        setTimeout(() => {
+                            AdministracijaUstanove();
+                        }, 100);
+                    });
             });
         });
         //Administracija Izbris
@@ -875,7 +841,7 @@ function AdministracijaOS(){
             let btnDel = document.createElement('button');
             btnDel.textContent = "Izbriši";
             btnDel.onclick = function(){
-                IzbrisVnosa(document.getElementById(this.className));
+                IzbrisAdmin(this);
             }
 
             let btnTd = document.createElement('td');
@@ -885,7 +851,108 @@ function AdministracijaOS(){
                 td.textContent = `${value}`;
                 if(btnDel.id == ''){
                     btnDel.id = `${value}`;
-                    btnDel.className = `tabOS`;
+                    btnDel.className = `tabustanove`;
+                }
+                tr.append(td);
+            })
+
+            btnTd.append(btnDel);
+            tr.append(btnTd);
+
+            tabelaBody.append(tr);
+        });
+
+        tabela.append(tabelaBody);
+        document.getElementById("AdminIzbris").append(tabela);
+
+    })
+}
+function AdministracijaOS(){
+    askServer('OS')
+    .then(res => res.json())
+    .then(data => {
+        //Administracija Vnos
+        document.getElementById("AdminVnos").innerHTML = '';
+        fetch('/HTML/AdminOS.html')
+        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+        .then(html => {
+            document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
+            document.querySelectorAll("label").forEach(label => {
+                label.addEventListener("click", (e) => {
+                    const inputId = label.getAttribute("for");
+                    const input = document.getElementById(inputId);
+                    if (input && input.select) {
+                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
+                        setTimeout(() => input.select(), 0);
+                    }
+                });
+            });
+            document.getElementById("Vnos").addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    
+                    const form = event.target;
+                    const formData = new FormData(form);
+
+                    const data = {};
+                    for(const [key, value] of formData.entries()) {
+                        data[key] = value;
+                    }
+
+                    fetch('/AdminVnosOS', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    }).then(res => {
+                        setTimeout(() => {
+                            AdministracijaOS();
+                        }, 100);
+                    });
+            });
+        });
+        //Administracija Izbris
+        document.getElementById("AdminIzbris").innerHTML = '';
+
+        let tabela = document.createElement('table');
+        tabela.className = "table table-sm";
+        tabela.id = "SifrantTabela"
+
+        let tabelaHead = document.createElement('thead');
+        let tabelaHeadTr = document.createElement('tr');
+
+        //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
+        Object.entries(data[0]).forEach(([key, value]) => {
+            let tabelaHeadTd = document.createElement('th');
+            tabelaHeadTd.innerHTML = key;
+            tabelaHeadTr.append(tabelaHeadTd);
+        });
+
+        let tabelaHeadBtn = document.createElement('th');
+        tabelaHeadTr.append(tabelaHeadBtn)
+
+        tabelaHead.append(tabelaHeadTr);
+        tabela.append(tabelaHead);
+
+        let tabelaBody = document.createElement('tbody');
+
+        data.forEach((data) => {
+            let tr = document.createElement('tr')
+
+            let btnDel = document.createElement('button');
+            btnDel.textContent = "Izbriši";
+            btnDel.onclick = function(){
+                IzbrisAdmin(this);
+            }
+
+            let btnTd = document.createElement('td');
+
+            Object.entries(data).forEach(([key, value]) => {
+                let td = document.createElement('td');
+                td.textContent = `${value}`;
+                if(btnDel.id == ''){
+                    btnDel.id = `${value}`;
+                    btnDel.className = `tabos`;
                 }
                 tr.append(td);
             })
@@ -921,6 +988,29 @@ function AdministracijaEndNote(){
                     }
                 });
             });
+            document.getElementById("Vnos").addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    
+                    const form = event.target;
+                    const formData = new FormData(form);
+
+                    const data = {};
+                    for(const [key, value] of formData.entries()) {
+                        data[key] = value;
+                    }
+
+                    fetch('/AdminVnosEN', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    }).then(res => {
+                        setTimeout(() => {
+                            AdministracijaEndNote();
+                        }, 100);
+                    });
+            });
         });
         //Administracija Izbris
         document.getElementById("AdminIzbris").innerHTML = '';
@@ -953,7 +1043,7 @@ function AdministracijaEndNote(){
             let btnDel = document.createElement('button');
             btnDel.textContent = "Izbriši";
             btnDel.onclick = function(){
-                IzbrisVnosa(document.getElementById(this.className));
+                IzbrisAdmin(this);
             }
 
             let btnTd = document.createElement('td');
@@ -963,7 +1053,7 @@ function AdministracijaEndNote(){
                 td.textContent = `${value}`;
                 if(btnDel.id == ''){
                     btnDel.id = `${value}`;
-                    btnDel.className = `tabEndNote`;
+                    btnDel.className = `tabendnote`;
                 }
                 tr.append(td);
             })
@@ -979,6 +1069,55 @@ function AdministracijaEndNote(){
 
     })
 }   
+
+function IzbrisAdmin(element){
+    console.log(element.className);
+    if(confirm(`Ste prepričani da želite izbrisati vnos z ID ${element.id}?`)){
+        if(element.className == "tablogin"){
+            fetch('AdminIzbris', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"ID":element.id,"Tabela":element.className})
+            }).then(res => {
+                    AdministracijaUporabniki();
+            });
+        }else if(element.className == "tabustanove"){
+            fetch('AdminIzbris', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"ID":element.id,"Tabela":element.className})
+            }).then(res => {
+                    AdministracijaUstanove();
+            });
+        }else if(element.className == "tabos"){
+            console.log("OS");
+            fetch('AdminIzbris', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"ID":element.id,"Tabela":element.className})
+            }).then(res => {
+                    AdministracijaOS();
+            });
+        }else if(element.className == "tabendnote"){
+            console.log("EndNote");
+            fetch('AdminIzbris', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"ID":element.id,"Tabela":element.className})
+            }).then(res => {
+                    AdministracijaEndNote();
+            });
+        }
+    }
+}
 
 window.Dashboard = Dashboard;
 window.Analitika = Analitika;
