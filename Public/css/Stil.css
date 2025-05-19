@@ -14,7 +14,19 @@ button{
 #username:disabled{
     background-color: #e9ecef !important;
 }
-
+#user{
+    font-weight: bold !important;
+    padding-right: 30px !important;
+    margin: 0 !important;
+    margin-top: 10px !important;
+}
+#uporabnikAdmin{
+    font-weight: normal !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: smaller !important;
+    color: #96939B !important;
+}
 nav{
     height: 100%;
     width: 150px;
@@ -42,12 +54,38 @@ nav > ul{
 nav > ul > li{
     width: 100%;
     padding: 5px;
-    text-align: center;
+    text-align: left;
     cursor: pointer;
 }
 
 nav > ul > li:hover{
     background: #96939B;
+    animation-name: test;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+nav > ul > ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #FC814A;
+    color: white;
+}
+
+nav > ul > ul > li{
+    width: 100%;
+    padding: 5px;
+    padding-left: 30px;
+    text-align: left;
+    cursor: pointer;
+}
+
+nav > ul > ul > li:hover{
+    background: #be5b2c;
     animation-name: test;
     animation-duration: 0.5s;
     animation-fill-mode: both;
@@ -77,9 +115,9 @@ nav > footer{
 }
 
 #Vsebina{
-    height: 100vh;
     margin-left: 150px;
     padding: 20px;
+    padding-top: 0 !important;
 }
 
 .dodaj{
