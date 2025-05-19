@@ -156,7 +156,20 @@ server.post('/Izbris', async (req, res) => {
 server.post('/pridobiVnos', async (req, res) => {
     try{
         let id = req.body.ID
-        let result = await SQLquery(`SELECT * FROM tabnamestitev WHERE IdNamestitve = '${id}'`);
+        let tabela = req.body.IDTabele
+        let result = await SQLquery(`SELECT * FROM ${tabela} WHERE IdNamestitve = '${id}'`);
+        res.send(result);
+    }catch(err){
+        console.log(err);
+    }
+});
+
+server.post('/pridobiVnosAdmin', async (req, res) => {
+    try{
+        let id = req.body.ID
+        let tabela = req.body.IDTabele
+        let nazivID = req.body.nazivID
+        let result = await SQLquery(`SELECT * FROM ${tabela} WHERE ${nazivID} = '${id}'`);
         res.send(result);
     }catch(err){
         console.log(err);
@@ -233,6 +246,26 @@ server.post('/Uporabnik', async (req, res) => {
     }
 });
 
+server.post('/AdminUporabniki', async (req, res) => {
+    let result = await SQLquery("SELECT * FROM tablogin");
+    res.send(result);
+});
+
+server.post('/AdminUstanove', async (req, res) => {
+    let result = await SQLquery("SELECT * FROM tabustanove");
+    res.send(result);
+});
+
+server.post('/AdminOS', async (req, res) => {
+    let result = await SQLquery("SELECT * FROM tabos");
+    res.send(result);
+});
+
+server.post('/AdminEndNote', async (req, res) => {
+    let result = await SQLquery("SELECT * FROM tabendnote");
+    res.send(result);
+});
+
 server.post('/AdminIzbris', async (req, res) => {
     let ID = req.body.ID;
     let Tabela = req.body.Tabela;
@@ -281,21 +314,24 @@ server.post('/AdminIzbris', async (req, res) => {
 
 server.post('/AdminVnosUser', async (req, res) => {
     let vnos = req.body;
+    let result;
     try{
         console.log(vnos);
 
         if(vnos.Admin == "on"){
             console.log("Admin je ON");
-            let result = await SQLquery(`INSERT INTO tablogin(OznakaSkrbnika,Username,Password,Admin) VALUES("${vnos.OznakaSkrbnika}","${vnos.Username}","${vnos.Password}","1")`);
+            result = await SQLquery(`INSERT INTO tablogin(OznakaSkrbnika,Username,Password,Admin) VALUES("${vnos.OznakaSkrbnika}","${vnos.Username}","${vnos.Password}","1")`);
+            console.log(result);
         }else{
             console.log("Admin je OFF");
-            let result = await SQLquery(`INSERT INTO tablogin(OznakaSkrbnika,Username,Password,Admin) VALUES("${vnos.OznakaSkrbnika}","${vnos.Username}","${vnos.Password}","0")`);
+            result = await SQLquery(`INSERT INTO tablogin(OznakaSkrbnika,Username,Password,Admin) VALUES("${vnos.OznakaSkrbnika}","${vnos.Username}","${vnos.Password}","0")`);
         }
-        res.send(result);
         res.status(200);
+        res.send(result);
+        
     }catch(err){
+        res.status(500);
         res.send(err);
-        res.status(500)
     }
 });
 

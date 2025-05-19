@@ -1,16 +1,15 @@
-<form action="/AdminVnosOS" method="post" id="Vnos">
-    <hr><hr>
-    <div class = "mb-2 mt-2 d-flex flex-column">
+<div id="obrazecContainer">
+    <form action="/AdminVnosOS" method="post" id="Vnos">
+    <div class = "mb-2 mt-2 d-flex flex-row">
         <label for="NazivOS">NazivOS</label>
         <input type="text" name="NazivOS" id="NazivOS" class="form-control" required>
     </div>
-    <hr>
-    <div class = "mb-2 mt-2 d-flex flex-column">
+    <div class = "mb-2 mt-2 d-flex flex-row">
         <label for="NazivOSAngl">NazivOSAngl</label>
         <input type="text" name="NazivOSAngl" id="NazivOSAngl" class="form-control" required>
     </div>
-    <hr><hr>
     <input type="reset" value="Ponastavi" id="obrazecPonastavi">
     <input type="submit" value="Shrani" id="obrazecPotrdi">
     <input type="text" name="Tabela" id="Tabela" class="form-control" value="tabos" hidden>
-</form>
+    </form>
+</div>

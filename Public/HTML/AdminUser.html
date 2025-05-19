@@ -1,26 +1,23 @@
-<form action="/AdminVnosUser" method="post" id="Vnos">
-    <hr><hr>
-    <div class = "mb-2 mt-2 d-flex flex-column">
+<div id="obrazecContainer">
+    <form action="/AdminVnosUser" method="post" id="Vnos">
+    <div class = "mb-2 mt-2 d-flex flex-row align-items-center">
         <label for="OznakaSkrbnika">ID Skrbnika</label>
         <input type="text" name="OznakaSkrbnika" id="OznakaSkrbnika" class="form-control" required>
     </div>
-    <hr>
-    <div class = "mb-2 mt-2 d-flex flex-column">
-        <label for="Username">Username</label>
+    <div class = "mb-2 mt-2 d-flex flex-row align-items-center">
+        <label for="Username">Uporabniško Ime</label>
         <input type="text" name="Username" id="Username" class="form-control" required>
     </div>
-    <hr>
-    <div class = "mb-2 mt-2 d-flex flex-column">
-        <label for="Password">Password</label>
+    <div class = "mb-2 mt-2 d-flex flex-row align-items-center">
+        <label for="Password">Geslo</label>
         <input type="text" name="Password" id="Password" class="form-control" required>
     </div>
-    <hr>
-    <div class = "mb-2 mt-2 d-flex align-items-center">
+    <div class = "mb-2 mt-2 d-flex flex-row align-items-center">
         <label for="Admin">Admin</label>
         <input type="checkbox" name="Admin" id="Admin" class="form-check-input mb-2">
     </div>
-    <hr><hr>
     <input type="reset" value="Ponastavi" id="obrazecPonastavi">
     <input type="submit" value="Shrani" id="obrazecPotrdi">
     <input type="text" name="Tabela" id="Tabela" class="form-control" value="tablogin" hidden>
-</form>
+    </form>
+</div>

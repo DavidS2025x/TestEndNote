@@ -444,7 +444,7 @@ function urediVnos(IdVnosa){
 
     let result;
 
-    askServer("pridobiVnos",`{"ID":"${IdVnosa}"}`)
+    askServer("pridobiVnos",`{"ID":"${IdVnosa}","IDTabele":"tabnamestitev"}`)
     .then(req => req.json())
     .then(dataTemp => {
         result = dataTemp[0];
@@ -634,6 +634,446 @@ async function user(){
     return result.json();
 }
 
+function ObrazecAdmin(obrazec){
+    //Če graf obstaja ga uniči preden ga ponovno nariše, preprečimo memory leak
+    if(chartUstanove){
+        chartUstanove.destroy();
+    }
+    if(chartOS){
+        chartOS.destroy();
+    }
+    if(chartENVer){
+        chartENVer.destroy();
+    }
+
+    document.getElementById("Vsebina").innerHTML = '';
+
+    if(obrazec == "AdminUporabniki"){
+        fetch('/HTML/AdminUser.html')
+        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+        .then(html => {
+            document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+            document.querySelectorAll("label").forEach(label => {
+                label.addEventListener("click", (e) => {
+                    const inputId = label.getAttribute("for");
+                    const input = document.getElementById(inputId);
+                    if (input && input.select) {
+                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
+                        setTimeout(() => input.select(), 0);
+                    }
+                });
+            });
+            document.getElementById("Vnos").addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    
+                    const form = event.target;
+                    console.log()
+                    const formData = new FormData(form);
+
+                    const data = {};
+                    for(const [key, value] of formData.entries()) {
+                        data[key] = value;
+                    }
+
+                    fetch('/AdminVnosUser', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    }).then(res => {
+                        setTimeout(() => {
+                            Administracija("tablogin");
+                        }, 100);
+                    });
+            });
+        });
+    }else if(obrazec == "AdminUstanove"){
+        fetch('/HTML/AdminUstanove.html')
+        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+        .then(html => {
+            document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+            document.querySelectorAll("label").forEach(label => {
+                label.addEventListener("click", (e) => {
+                    const inputId = label.getAttribute("for");
+                    const input = document.getElementById(inputId);
+                    if (input && input.select) {
+                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
+                        setTimeout(() => input.select(), 0);
+                    }
+                });
+            });
+            document.getElementById("Vnos").addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    
+                    const form = event.target;
+                    console.log()
+                    const formData = new FormData(form);
+
+                    const data = {};
+                    for(const [key, value] of formData.entries()) {
+                        data[key] = value;
+                    }
+
+                    fetch('/AdminVnosUstanove', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    }).then(res => {
+                        setTimeout(() => {
+                            Administracija("tabustanove");
+                        }, 100);
+                    });
+            });
+        });
+    }else if(obrazec == "AdminOS"){
+        fetch('/HTML/AdminOS.html')
+        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+        .then(html => {
+            document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+            document.querySelectorAll("label").forEach(label => {
+                label.addEventListener("click", (e) => {
+                    const inputId = label.getAttribute("for");
+                    const input = document.getElementById(inputId);
+                    if (input && input.select) {
+                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
+                        setTimeout(() => input.select(), 0);
+                    }
+                });
+            });
+            document.getElementById("Vnos").addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    
+                    const form = event.target;
+                    console.log()
+                    const formData = new FormData(form);
+
+                    const data = {};
+                    for(const [key, value] of formData.entries()) {
+                        data[key] = value;
+                    }
+
+                    fetch('/AdminVnosOS', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    }).then(res => {
+                        setTimeout(() => {
+                            Administracija("tabos");
+                        }, 100);
+                    });
+            });
+        });
+    }else if(obrazec == "AdminEndNote"){
+        fetch('/HTML/AdminEN.html')
+        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+        .then(html => {
+            document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+            document.querySelectorAll("label").forEach(label => {
+                label.addEventListener("click", (e) => {
+                    const inputId = label.getAttribute("for");
+                    const input = document.getElementById(inputId);
+                    if (input && input.select) {
+                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
+                        setTimeout(() => input.select(), 0);
+                    }
+                });
+            });
+            document.getElementById("Vnos").addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    
+                    const form = event.target;
+                    console.log()
+                    const formData = new FormData(form);
+
+                    const data = {};
+                    for(const [key, value] of formData.entries()) {
+                        data[key] = value;
+                    }
+
+                    fetch('/AdminVnosEN', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    }).then(res => {
+                        setTimeout(() => {
+                            Administracija("tabendnote");
+                        }, 100);
+                    });
+            });
+        });
+    }
+}
+
+function Administracija(tabelaIzbira){
+    if(chartUstanove){
+        chartUstanove.destroy();
+    }
+    if(chartOS){
+        chartOS.destroy();
+    }
+    if(chartENVer){
+        chartENVer.destroy();
+    }
+
+    document.getElementById("Vsebina").innerHTML = '';
+
+    let poizvedba
+    if(tabelaIzbira == "tablogin"){
+        poizvedba = "AdminUporabniki";
+    }else if(tabelaIzbira == "tabustanove"){
+        poizvedba = "AdminUstanove";
+    }else if(tabelaIzbira == "tabos"){
+        poizvedba = "AdminOS";
+    }else if(tabelaIzbira == "tabendnote"){
+        poizvedba = "AdminEndNote";
+    }
+    askServer(poizvedba)
+    .then(res => res.json())
+    .then(data => {
+        //Ustvarimo in dodamo gumb za novi vnos
+        let addButton = document.createElement("button");
+                addButton.innerText="NOV VNOS +";
+                addButton.className="dodaj";
+                addButton.onclick = function(){
+                    ObrazecAdmin(poizvedba);
+                }
+
+        //Ustvarimo lable za iskalno polje
+        let label = document.createElement("label");
+                label.htmlFor = "iskalnoPolje";
+                label.innerText = "Iskanje";
+                label.className = "form-label text-center";
+
+        //Ustvarimo nov input za iskanje
+        let searchBar = document.createElement("input");
+                searchBar.type="text";
+                searchBar.id="iskalnoPolje";
+                searchBar.onkeyup = function(){
+                    iskanjeTabela(document.getElementById("iskalnoPolje"),document.getElementById("IzpisPB"));
+                }
+                searchBar.className = "form-control";
+                searchBar.placeholder = "Vnesi poljuben niz";
+
+        //Ustvarimo nov gumb za izbris iskanja
+        let clearButton = document.createElement("button");
+                clearButton.innerText="X";
+                clearButton.className="iskanje";
+                clearButton.onclick = function(){
+                    document.getElementById("iskalnoPolje").value = "";
+                    iskanjeTabela(document.getElementById("iskalnoPolje"),document.getElementById("IzpisPB"));
+                }
+
+        //Ustvarimo nov div element za shranjevanje iskalnega polja
+        let searchContainer = document.createElement("div");
+        searchContainer.className = "container d-flex flow-row ms-0 mt-2 mb-2 align-items-center";
+        searchContainer.append(label);
+        searchContainer.append(searchBar);
+        searchContainer.append(clearButton);
+
+        document.getElementById("Vsebina").append(addButton);
+        document.getElementById("Vsebina").append(searchContainer);
+
+        //Pripravimo vse potrebne elemente za kreiranje tabele s podatki, ki nam jih je poslal strežnik
+        let tabela = document.createElement('table');
+        tabela.className = "table table-sm";
+        tabela.id = "IzpisPB"
+
+        let tabelaHead = document.createElement('thead');
+        let tabelaHeadTr = document.createElement('tr');
+
+        //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
+        Object.entries(data[0]).forEach(([key, value]) => {
+            let tabelaHeadTd = document.createElement('th');
+            tabelaHeadTd.textContent = key;
+            tabelaHeadTr.append(tabelaHeadTd);
+        })
+        //Ekstra td za ujemanje s številom td v telesu tabele
+        let tabelaHeadTd = document.createElement('th');
+        tabelaHeadTr.append(tabelaHeadTd);
+
+        tabelaHead.append(tabelaHeadTr);
+        tabela.append(tabelaHead)
+
+        let tabelaBody = document.createElement('tbody');
+        
+        //Gremo skozi vse JSON objekte, ki se nahajajo v polju
+        data.forEach((data) => {
+
+            let tr = document.createElement('tr')
+
+            //Gumb za urejanje
+            let btn = document.createElement('button');
+            btn.textContent = "Uredi";
+            btn.onclick = function(){
+                urediVnosAdmin(this.id,this.className);
+            }
+
+            //Gumb za brisanje
+            let btnDel = document.createElement('button');
+            btnDel.textContent = "Izbriši";
+            btnDel.onclick = function(){
+                IzbrisAdmin(this);
+            }
+
+            let btnTd = document.createElement('td');
+            btnTd.className = "";
+
+            //Iz teh nato preberemo in zapišemo vrednost v celice tabele, katere nato zapišemo v vrstice tabele, katere nato pripnemo v telo tabele
+            Object.entries(data).forEach(([key, value]) => {
+                let td = document.createElement('td');
+                td.textContent = `${value}`;
+                if(btn.className == ''){
+                    btn.className = tabelaIzbira;
+                    btn.id = `${value}`
+                }
+                if(btnDel.className == ''){
+                    btnDel.className = tabelaIzbira;
+                    btnDel.id = `${value}`;
+                }
+                if(tr.id == ''){
+                    tr.id = `${value}`;
+                }
+                tr.append(td);
+            })
+            btnTd.append(btn);
+            btnTd.append(btnDel);
+            tr.append(btnTd);
+
+            tabelaBody.append(tr);
+        });
+
+        tabela.append(tabelaBody);
+
+
+        document.getElementById("Vsebina").append(tabela);
+    })
+
+}
+
+function IzbrisAdmin(element){
+    console.log(element);
+    console.log(element.id);
+    console.log(element.className);
+    if(confirm(`Ste prepričani da želite izbrisati vnos z ID ${element.id}?`)){
+        if(element.className == "tablogin"){
+            fetch('AdminIzbris', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"ID":element.id,"Tabela":element.className})
+            }).then(res => {
+                    Administracija("tablogin");
+            });
+        }else if(element.className == "tabustanove"){
+            fetch('AdminIzbris', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"ID":element.id,"Tabela":element.className})
+            }).then(res => {
+                    Administracija("tabustanove");
+            });
+        }else if(element.className == "tabos"){
+            console.log("OS");
+            fetch('AdminIzbris', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"ID":element.id,"Tabela":element.className})
+            }).then(res => {
+                    Administracija("tabos");
+            });
+        }else if(element.className == "tabendnote"){
+            console.log("EndNote");
+            fetch('AdminIzbris', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"ID":element.id,"Tabela":element.className})
+            }).then(res => {
+                    Administracija("tabendnote");
+            });
+        }
+    }
+}
+
+function urediVnosAdmin(IDVnosa,tabelaIzbira){
+    
+        if(tabelaIzbira == "tablogin"){
+            askServer("pridobiVnosAdmin",`{"ID":"${IDVnosa}","IDTabele":"${tabelaIzbira}","nazivID":"oznakaSkrbnika"}`)
+            .then(req => req.json())
+            .then(dataTemp => {
+                console.log(dataTemp);
+                fetch('/HTML/AdminUser.html')
+                .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+                .then(html => {
+                    document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+
+                    document.getElementById("Vnos").addEventListener("submit", function(event) {
+                        event.preventDefault();
+                    });
+                });
+            });
+        }else if(tabelaIzbira == "tabustanove"){
+            askServer("pridobiVnosAdmin",`{"ID":"${IDVnosa}","IDTabele":"${tabelaIzbira}","nazivID":"Kratica"}`)
+            .then(req => req.json())
+            .then(dataTemp => {
+                console.log(dataTemp);
+                fetch('/HTML/AdminUstanove.html')
+                .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+                .then(html => {
+                    document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+
+                    document.getElementById("Vnos").addEventListener("submit", function(event) {
+                        event.preventDefault();
+                    });
+                });
+            });
+        }else if(tabelaIzbira == "tabos"){
+            askServer("pridobiVnosAdmin",`{"ID":"${IDVnosa}","IDTabele":"${tabelaIzbira}","nazivID":"NazivOS"}`)
+            .then(req => req.json())
+            .then(dataTemp => {
+                console.log(dataTemp);
+                fetch('/HTML/AdminOS.html')
+                .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+                .then(html => {
+                    document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+
+                    document.getElementById("Vnos").addEventListener("submit", function(event) {
+                        event.preventDefault();
+                    });
+                });
+            });
+        }else if(tabelaIzbira == "tabendnote"){
+            askServer("pridobiVnosAdmin",`{"ID":"${IDVnosa}","IDTabele":"${tabelaIzbira}","nazivID":"nazivEndNoteVerzije"}`)
+            .then(req => req.json())
+            .then(dataTemp => {
+                console.log(dataTemp);
+                fetch('/HTML/AdminEN.html')
+                .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
+                .then(html => {
+                    document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
+
+                    document.getElementById("Vnos").addEventListener("submit", function(event) {
+                        event.preventDefault();
+                    });
+                });
+            });
+        }
+}
+
+/*
 function Administracija(){
     //Če graf obstaja ga uniči preden ga ponovno nariše, preprečimo memory leak
     if(chartUstanove){
@@ -1118,6 +1558,7 @@ function IzbrisAdmin(element){
         }
     }
 }
+    */
 
 window.Dashboard = Dashboard;
 window.Analitika = Analitika;
@@ -1125,7 +1566,5 @@ window.Obrazec = Obrazec;
 window.Odjava = Odjava;
 window.user = user;
 window.Administracija = Administracija;
-window.AdministracijaUporabniki = AdministracijaUporabniki;
-window.AdministracijaUstanove = AdministracijaUstanove; 
-window.AdministracijaOS = AdministracijaOS;
-window.AdministracijaEndNote = AdministracijaEndNote;
+window.IzbrisAdmin = IzbrisAdmin;
+
