@@ -287,7 +287,7 @@ function Obrazec(){
                         let Spol = document.getElementById("Spol").value;
                         let StatusUporabnika = document.getElementById("StatusUporabnika").value;
                         let StopnjaStudija = document.getElementById("StopnjaStudija").value;
-                        let username = document.getElementById("username").value;
+                        let UporabniskoIme = document.getElementById("UporabniskoIme").value;
                         let email = document.getElementById("email").value;
                         let EndNoteV = document.getElementById("EndNoteV").value;
                         let OS = document.getElementById("OS").value;
@@ -295,10 +295,10 @@ function Obrazec(){
                         let Datum = document.getElementById("Datum").value;
 
                         if(document.getElementById('StopnjaStudija').disabled){
-                            novVnos({"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":"","username":username,"email":email,"EndNoteV":EndNoteV,"OS":OS,"Ustanova":Ustanova,"Datum":Datum});
+                            novVnos({"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":"","UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"Datum":Datum});
                             Obrazec();
                         }else{
-                            novVnos({"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":StopnjaStudija,"username":username,"email":email,"EndNoteV":EndNoteV,"OS":OS,"Ustanova":Ustanova,"Datum":Datum});
+                            novVnos({"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":StopnjaStudija,"UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"Datum":Datum});
                             Obrazec();
                         }
                         
@@ -381,8 +381,8 @@ function Obrazec(){
                     let target = document.getElementById('Ustanova')
                     Object.entries(data).forEach(([key, value]) => {
                         let option = document.createElement('option');
-                        option.value = value.Kratica;
-                        option.textContent = value.Kratica;
+                        option.value = value.OznakaUstanove;
+                        option.textContent = value.OznakaUstanove;
                         target.appendChild(option);
                     });
                     target.value = null;
@@ -400,11 +400,11 @@ function Obrazec(){
                 });
 
                 user().then(result => {
-                    let username = document.createElement("option");
-                    username.value = result.ID;
-                    username.innerHTML = result.username;
+                    let UporabniskoIme = document.createElement("option");
+                    UporabniskoIme.value = result.ID;
+                    UporabniskoIme.innerHTML = result.UporabniskoIme;
 
-                    document.getElementById("username").appendChild(username);
+                    document.getElementById("UporabniskoIme").appendChild(UporabniskoIme);
                 })
 
             })
@@ -465,7 +465,7 @@ function urediVnos(IdVnosa){
                         let Spol = document.getElementById("Spol").value;
                         let StatusUporabnika = document.getElementById("StatusUporabnika").value;
                         let StopnjaStudija = document.getElementById("StopnjaStudija").value;
-                        let username = document.getElementById("username").value;
+                        let UporabniskoIme = document.getElementById("UporabniskoIme").value;
                         let email = document.getElementById("email").value;
                         let EndNoteV = document.getElementById("EndNoteV").value;
                         let OS = document.getElementById("OS").value;
@@ -475,9 +475,9 @@ function urediVnos(IdVnosa){
                         let queryString;
 
                         if(document.getElementById('StopnjaStudija').disabled){
-                            queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":"","username":username,"email":email,"EndNoteV":EndNoteV,"OS":OS,"Ustanova":Ustanova,"Datum":Datum} 
+                            queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":"","UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"Datum":Datum} 
                         }else{
-                            queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":StopnjaStudija,"username":username,"email":email,"EndNoteV":EndNoteV,"OS":OS,"Ustanova":Ustanova,"Datum":Datum} 
+                            queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":StopnjaStudija,"UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"Datum":Datum} 
                         }
 
                         orderServer("spremeniVnos",JSON.stringify(queryString),"uredi")
@@ -491,7 +491,7 @@ function urediVnos(IdVnosa){
                     document.getElementById("Ime").value = result.Ime;
                     document.getElementById("Priimek").value = result.Priimek;
                     document.getElementById("Spol").value = result.Spol;
-                    //document.getElementById("username").value = result.OznakaSkrbnika;
+                    //document.getElementById("UporabniskoIme").value = result.OznakaSkrbnika;
                     document.getElementById("email").value = result.ElektronskaPosta;
                     document.getElementById("Ustanova").value = result.Ustanova;
                     document.getElementById("StatusUporabnika").value = result.StatusUporabnika;
@@ -509,7 +509,7 @@ function urediVnos(IdVnosa){
                     document.getElementById("Datum").value = danes;
 
                     user().then(result => {
-                        document.getElementById("username").value = result.ID;
+                        document.getElementById("UporabniskoIme").value = result.ID;
                     })
                 });
 
@@ -593,25 +593,25 @@ function urediVnos(IdVnosa){
                     let target = document.getElementById('Ustanova')
                     Object.entries(data).forEach(([key, value]) => {
                         let option = document.createElement('option');
-                        option.value = value.Kratica;
-                        option.textContent = value.Kratica;
+                        option.value = value.OznakaUstanove;
+                        option.textContent = value.OznakaUstanove;
                         target.appendChild(option);
                     });
                     document.getElementById("Ustanova").value = result.Ustanova;
                 });
 
                 user().then(result => {
-                    let username = document.createElement("option");
-                    username.value = result.ID;
-                    username.innerHTML = result.username;
+                    let UporabniskoIme = document.createElement("option");
+                    UporabniskoIme.value = result.ID;
+                    UporabniskoIme.innerHTML = result.UporabniskoIme;
 
-                    document.getElementById("username").appendChild(username);
+                    document.getElementById("UporabniskoIme").appendChild(UporabniskoIme);
                 })
 
                 document.getElementById("Ime").value = result.Ime;
                 document.getElementById("Priimek").value = result.Priimek;
                 document.getElementById("Spol").value = result.Spol;
-                document.getElementById("username").value = result.OznakaSkrbnika;
+                document.getElementById("UporabniskoIme").value = result.OznakaSkrbnika;
                 document.getElementById("email").value = result.ElektronskaPosta;
             });
     });
@@ -723,7 +723,7 @@ function ObrazecAdmin(obrazec){
                         body: JSON.stringify(data)
                     }).then(res => {
                         setTimeout(() => {
-                            Administracija("tabustanove");
+                            Administracija("tabustanova");
                         }, 100);
                     });
             });
@@ -827,7 +827,7 @@ function Administracija(tabelaIzbira){
     let poizvedba
     if(tabelaIzbira == "tablogin"){
         poizvedba = "AdminUporabniki";
-    }else if(tabelaIzbira == "tabustanove"){
+    }else if(tabelaIzbira == "tabustanova"){
         poizvedba = "AdminUstanove";
     }else if(tabelaIzbira == "tabos"){
         poizvedba = "AdminOS";
@@ -972,7 +972,7 @@ function IzbrisAdmin(element){
             }).then(res => {
                     Administracija("tablogin");
             });
-        }else if(element.className == "tabustanove"){
+        }else if(element.className == "tabustanova"){
             fetch('AdminIzbris', {
                 method: 'POST',
                 headers: {
@@ -980,7 +980,7 @@ function IzbrisAdmin(element){
                 },
                 body: JSON.stringify({"ID":element.id,"Tabela":element.className})
             }).then(res => {
-                    Administracija("tabustanove");
+                    Administracija("tabustanova");
             });
         }else if(element.className == "tabos"){
             console.log("OS");
@@ -1022,11 +1022,52 @@ function urediVnosAdmin(IDVnosa,tabelaIzbira){
 
                     document.getElementById("Vnos").addEventListener("submit", function(event) {
                         event.preventDefault();
+                        let OznakaSkrbnika = document.getElementById("OznakaSkrbnika").value;
+                        let UporabniskoIme = document.getElementById("UporabniskoIme").value;
+                        let UporabniskoGeslo = document.getElementById("UporabniskoGeslo").value;
+                        let Admin = document.getElementById("Admin").checked;
+                        let IDvnosa = dataTemp[0].OznakaSkrbnika;
+                        
+                        fetch('SpremeniVnosAdmin', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({"IDvnosa":IDvnosa, "OznakaSkrbnika":OznakaSkrbnika ,"UporabniskoIme":UporabniskoIme,"UporabniskoGeslo":UporabniskoGeslo,"Admin":Admin, "Tabela":tabelaIzbira})
+                        }).then(res => {
+                                Administracija("tablogin");
+                        });
+
                     });
+
+                    document.getElementById("Vnos").addEventListener("reset", function(event) {
+                        event.preventDefault();
+
+                        document.getElementById("OznakaSkrbnika").value = dataTemp[0].OznakaSkrbnika;
+                        document.getElementById("UporabniskoIme").value = dataTemp[0].UporabniskoIme;
+                        document.getElementById("UporabniskoGeslo").value = dataTemp[0].UporabniskoGeslo;
+
+                        if(dataTemp[0].Admin == 1){
+                            document.getElementById("Admin").checked = true;
+                        }else{
+                            document.getElementById("Admin").checked = false;
+                        }
+                    });
+
+                    document.getElementById("OznakaSkrbnika").value = dataTemp[0].OznakaSkrbnika;
+                    document.getElementById("UporabniskoIme").value = dataTemp[0].UporabniskoIme;
+                    document.getElementById("UporabniskoGeslo").value = dataTemp[0].UporabniskoGeslo;
+
+                    if(dataTemp[0].Admin == 1){
+                        document.getElementById("Admin").checked = true;
+                    }else{
+                        document.getElementById("Admin").checked = false;
+                    }
+
                 });
             });
-        }else if(tabelaIzbira == "tabustanove"){
-            askServer("pridobiVnosAdmin",`{"ID":"${IDVnosa}","IDTabele":"${tabelaIzbira}","nazivID":"Kratica"}`)
+        }else if(tabelaIzbira == "tabustanova"){
+            askServer("pridobiVnosAdmin",`{"ID":"${IDVnosa}","IDTabele":"${tabelaIzbira}","nazivID":"OznakaUstanove"}`)
             .then(req => req.json())
             .then(dataTemp => {
                 console.log(dataTemp);
@@ -1037,7 +1078,36 @@ function urediVnosAdmin(IDVnosa,tabelaIzbira){
 
                     document.getElementById("Vnos").addEventListener("submit", function(event) {
                         event.preventDefault();
+
+                        let OznakaUstanove = document.getElementById("OznakaUstanove").value;
+                        let NazivUstanove = document.getElementById("NazivUstanove").value;
+                        let Ulica = document.getElementById("Ulica").value;
+                        let IDvnosa = dataTemp[0].OznakaUstanove;
+
+                        fetch('SpremeniVnosAdmin', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({"IDvnosa":IDvnosa, "OznakaUstanove":OznakaUstanove, "NazivUstanove":NazivUstanove, "Ulica":Ulica ,"Tabela":tabelaIzbira})
+                        }).then(res => {
+                                Administracija("tabustanova");
+                        });
                     });
+
+                    document.getElementById("Vnos").addEventListener("reset", function(event) {
+                        event.preventDefault();
+
+                        document.getElementById("OznakaUstanove").value = dataTemp[0].OznakaUstanove;
+                        document.getElementById("NazivUstanove").value = dataTemp[0].NazivUstanove;
+                        document.getElementById("Ulica").value = dataTemp[0].Ulica;
+
+                    });
+
+                    document.getElementById("OznakaUstanove").value = dataTemp[0].OznakaUstanove;
+                    document.getElementById("NazivUstanove").value = dataTemp[0].NazivUstanove;
+                    document.getElementById("Ulica").value = dataTemp[0].Ulica;
+
                 });
             });
         }else if(tabelaIzbira == "tabos"){
@@ -1052,7 +1122,32 @@ function urediVnosAdmin(IDVnosa,tabelaIzbira){
 
                     document.getElementById("Vnos").addEventListener("submit", function(event) {
                         event.preventDefault();
+
+                        let NazivOS = document.getElementById("NazivOS").value;
+                        let NazivOSAngl = document.getElementById("NazivOSAngl").value;
+                        let IDvnosa = dataTemp[0].NazivOS;
+
+                        fetch('SpremeniVnosAdmin', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({"IDvnosa":IDvnosa, "NazivOS":NazivOS, "NazivOSAngl":NazivOSAngl ,"Tabela":tabelaIzbira})
+                        }).then(res => {
+                                Administracija("tabos");
+                        });
                     });
+
+                    document.getElementById("Vnos").addEventListener("reset", function(event) {
+                        event.preventDefault();
+
+                        document.getElementById("NazivOS").value = dataTemp[0].NazivOS;
+                        document.getElementById("NazivOSAngl").value = dataTemp[0].NazivOSAngl;
+                    });
+
+                    document.getElementById("NazivOS").value = dataTemp[0].NazivOS;
+                    document.getElementById("NazivOSAngl").value = dataTemp[0].NazivOSAngl;
+
                 });
             });
         }else if(tabelaIzbira == "tabendnote"){
@@ -1067,7 +1162,28 @@ function urediVnosAdmin(IDVnosa,tabelaIzbira){
 
                     document.getElementById("Vnos").addEventListener("submit", function(event) {
                         event.preventDefault();
+
+                        let NazivEndNoteVerzije = document.getElementById("NazivEndNoteVerzije").value;
+                        let IDvnosa = dataTemp[0].NazivEndNoteVerzije;
+
+                        fetch('SpremeniVnosAdmin', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({"IDvnosa":IDvnosa, "NazivEndNoteVerzije":NazivEndNoteVerzije ,"Tabela":tabelaIzbira})
+                        }).then(res => {
+                                Administracija("tabendnote");
+                        });
                     });
+
+                    document.getElementById("Vnos").addEventListener("reset", function(event) {
+                        event.preventDefault();
+
+                        document.getElementById("NazivEndNoteVerzije").value = dataTemp[0].NazivEndNoteVerzije;
+                    });
+
+                    document.getElementById("NazivEndNoteVerzije").value = dataTemp[0].NazivEndNoteVerzije;
                 });
             });
         }
@@ -1291,7 +1407,7 @@ function AdministracijaUstanove(){
                 td.textContent = `${value}`;
                 if(btnDel.id == ''){
                     btnDel.id = `${value}`;
-                    btnDel.className = `tabustanove`;
+                    btnDel.className = `tabustanova`;
                 }
                 tr.append(td);
             })
@@ -1523,7 +1639,7 @@ function IzbrisAdmin(element){
             }).then(res => {
                     AdministracijaUporabniki();
             });
-        }else if(element.className == "tabustanove"){
+        }else if(element.className == "tabustanova"){
             fetch('AdminIzbris', {
                 method: 'POST',
                 headers: {
