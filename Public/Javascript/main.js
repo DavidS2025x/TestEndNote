@@ -41,7 +41,7 @@ function Dashboard(){
             //Razdelimo si rezultate SQL poizvedbe v dva polja, enega z podatki drugega z oznakami. Le te nato pošljemo v funkcijo ki nam izriše graf
             for(let i = 0; i < data.length; i++){
                 QueryData.push(data[i].Stevilo);
-                QueryLabel.push(data[i].Ustanova);
+                QueryLabel.push(data[i].OznakaUstanove);
             } 
 
             chartUstanove = chartBar(QueryData,QueryLabel,document.getElementById("StUstanov"));
@@ -295,7 +295,7 @@ function Obrazec(){
                         let Datum = document.getElementById("Datum").value;
 
                         if(document.getElementById('StopnjaStudija').disabled){
-                            novVnos({"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":"","UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"Datum":Datum});
+                            novVnos({"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":"NULL","UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"Datum":Datum});
                             Obrazec();
                         }else{
                             novVnos({"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":StopnjaStudija,"UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"Datum":Datum});
@@ -400,6 +400,8 @@ function Obrazec(){
                 });
 
                 user().then(result => {
+                    console.log(result);
+                    console.log(result.UporabniskoIme);
                     let UporabniskoIme = document.createElement("option");
                     UporabniskoIme.value = result.ID;
                     UporabniskoIme.innerHTML = result.UporabniskoIme;
@@ -416,6 +418,7 @@ function novVnos(formData){
     orderServer("/Vnos",JSON.stringify(formData),"vnesi")
     .then(response => {
         if (response.ok) {
+            console.log(response);
             document.getElementById("modalNaslov").innerHTML = "Status Vnosa";
             document.getElementById("modalVsebina").innerHTML = "Vnos je bil uspešen!";
             modal.show();
@@ -834,6 +837,7 @@ function Administracija(tabelaIzbira){
     }else if(tabelaIzbira == "tabendnote"){
         poizvedba = "AdminEndNote";
     }
+    console.log(poizvedba);
     askServer(poizvedba)
     .then(res => res.json())
     .then(data => {
@@ -1082,6 +1086,8 @@ function urediVnosAdmin(IDVnosa,tabelaIzbira){
                         let OznakaUstanove = document.getElementById("OznakaUstanove").value;
                         let NazivUstanove = document.getElementById("NazivUstanove").value;
                         let Ulica = document.getElementById("Ulica").value;
+                        let Kraj = document.getElementById("Kraj").value;
+                        let PostnaStevilka = document.getElementById("PostnaStevilka").value;
                         let IDvnosa = dataTemp[0].OznakaUstanove;
 
                         fetch('SpremeniVnosAdmin', {
@@ -1089,7 +1095,7 @@ function urediVnosAdmin(IDVnosa,tabelaIzbira){
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify({"IDvnosa":IDvnosa, "OznakaUstanove":OznakaUstanove, "NazivUstanove":NazivUstanove, "Ulica":Ulica ,"Tabela":tabelaIzbira})
+                            body: JSON.stringify({"IDvnosa":IDvnosa, "OznakaUstanove":OznakaUstanove, "NazivUstanove":NazivUstanove, "Ulica":Ulica , "Kraj":Kraj, "PostnaStevilka":PostnaStevilka,"Tabela":tabelaIzbira})
                         }).then(res => {
                                 Administracija("tabustanova");
                         });
@@ -1101,12 +1107,16 @@ function urediVnosAdmin(IDVnosa,tabelaIzbira){
                         document.getElementById("OznakaUstanove").value = dataTemp[0].OznakaUstanove;
                         document.getElementById("NazivUstanove").value = dataTemp[0].NazivUstanove;
                         document.getElementById("Ulica").value = dataTemp[0].Ulica;
+                        document.getElementById("Kraj").value = dataTemp[0].Kraj;
+                        document.getElementById("PostnaStevilka").value = dataTemp[0].PostnaStevilka;
 
                     });
 
                     document.getElementById("OznakaUstanove").value = dataTemp[0].OznakaUstanove;
                     document.getElementById("NazivUstanove").value = dataTemp[0].NazivUstanove;
                     document.getElementById("Ulica").value = dataTemp[0].Ulica;
+                    document.getElementById("Kraj").value = dataTemp[0].Kraj;
+                    document.getElementById("PostnaStevilka").value = dataTemp[0].PostnaStevilka;
 
                 });
             });

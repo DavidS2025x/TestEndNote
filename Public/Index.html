@@ -43,7 +43,7 @@
             <li data-bs-toggle="collapse" data-bs-target="#adminMeni" aria-expanded="false" aria-controls="adminMeni">Administracija</li>
                 <ul class="collapse" id="adminMeni">
                     <li onclick="Administracija('tablogin')">Uporabniki</li>
-                    <li onclick="Administracija('tabustanove')">Ustanove</li>
+                    <li onclick="Administracija('tabustanova')">Ustanove</li>
                     <li onclick="Administracija('tabos')">OS</li>
                     <li onclick="Administracija('tabendnote')">EndNote</li>
                 </ul>
@@ -82,7 +82,7 @@
                     if(result.ID == undefined){
                         window.location.href = "login.html";
                     }else{
-                        document.getElementById("imeUporabnika").innerText = result.username;
+                        document.getElementById("imeUporabnika").innerText = result.UporabniskoIme;
                         if(result.Admin != 1){
                         document.getElementById("navigacija").removeChild(document.getElementById("navigacija").children[2]);
                         }else{
