@@ -8,14 +8,14 @@ const bodyParser = require("body-parser");
 const e = require("express");
 
 
-const pool = mysql.createPool({
+/*const pool = mysql.createPool({
     connectionLimit: 10,
     host: 'sql7.freesqldatabase.com',
     user: 'sql7775750',
     password: 'ktzaxJU9L6',
     database: 'sql7775750'
 });
-
+*/
 
 /*
 const pool = mysql.createPool({
@@ -27,14 +27,14 @@ const pool = mysql.createPool({
 });
 */
 
-/*const pool = mysql.createPool({
+const pool = mysql.createPool({
     connectionLimit: 10,
     host: '164.8.88.60',
     user: 'enn',
     password: '!EndNote2025!',
     database: 'endnotenamestitve'
 });
-*/
+
 
 server.use(express.urlencoded({ extended: true }));
 server.use(bodyParser.urlencoded({ extended: true }));
