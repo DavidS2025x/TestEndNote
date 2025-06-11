@@ -472,8 +472,12 @@ function urediVnos(IdVnosa){
             .then(html => {
                 document.getElementById('Vsebina').innerHTML = html;  // Dodaj HTML v glavni dokument
 
-                let danes = new Date().toISOString().split("T")[0];
-                document.getElementById("Datum").value = danes;
+                let Datum = new Date(result.DatumNamestitve);
+                const offsetDate = new Date(Datum.getTime() - Datum.getTimezoneOffset() * 60000);
+                const inputDateValue = offsetDate.toISOString().split('T')[0];
+                document.getElementById("Datum").value = inputDateValue;
+
+                let DatumSpremembe = new Date().toISOString().split("T")[0];
 
                 document.getElementById("Vnos").addEventListener("submit", function(event) {
                     event.preventDefault();
@@ -488,15 +492,18 @@ function urediVnos(IdVnosa){
                         let EndNoteV = document.getElementById("EndNoteV").value;
                         let OS = document.getElementById("OS").value;
                         let Ustanova = document.getElementById("Ustanova").value;
-                        let Datum = document.getElementById("Datum").value;
+                        let DatumNamestitve = document.getElementById("Datum").value;
 
                         let queryString;
+                        console.log(Ustanova);
 
                         if(document.getElementById('StopnjaStudija').disabled){
-                            queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":"","UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"Datum":Datum} 
+                            queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":"","UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"DatumNamestitve":DatumNamestitve,"DatumSpremembe":DatumSpremembe} 
                         }else{
-                            queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":StopnjaStudija,"UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"Datum":Datum} 
+                            queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":StopnjaStudija,"UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"DatumNamestitve":DatumNamestitve,"DatumSpremembe":DatumSpremembe} 
                         }
+
+                        console.log(queryString);   
 
                         orderServer("spremeniVnos",JSON.stringify(queryString),"uredi")
                         .then(req => {
@@ -511,9 +518,9 @@ function urediVnos(IdVnosa){
                     document.getElementById("Spol").value = result.Spol;
                     //document.getElementById("UporabniskoIme").value = result.OznakaSkrbnika;
                     document.getElementById("email").value = result.ElektronskaPosta;
-                    document.getElementById("Ustanova").value = result.Ustanova;
+                    document.getElementById("Ustanova").value = result.OznakaUstanove;
                     document.getElementById("StatusUporabnika").value = result.StatusUporabnika;
-                    if(result.StopnjaStudijskegaPrograma == null){
+                    if(result.StopnjaStudijskegaPrograma == null || result.StopnjaStudijskegaPrograma == ""){
                         document.getElementById("StopnjaStudija").value = null;
                         document.getElementById("StopnjaStudija").disabled = true;
                     }else{
@@ -523,8 +530,10 @@ function urediVnos(IdVnosa){
                     document.getElementById("EndNoteV").value = result.NazivEndNoteVerzije;
                     document.getElementById("OS").value = result.NazivOS;
 
-                    let danes = new Date().toISOString().split("T")[0];
-                    document.getElementById("Datum").value = danes;
+                    let Datum = new Date(result.DatumNamestitve);
+                    const offsetDate = new Date(Datum.getTime() - Datum.getTimezoneOffset() * 60000);
+                    const inputDateValue = offsetDate.toISOString().split('T')[0];
+                    document.getElementById("Datum").value = inputDateValue;
 
                     user().then(result => {
                         document.getElementById("UporabniskoIme").value = result.ID;
@@ -609,13 +618,14 @@ function urediVnos(IdVnosa){
                 .then(req => req.json())
                 .then(data => {
                     let target = document.getElementById('Ustanova')
+                    console.log(data);
                     Object.entries(data).forEach(([key, value]) => {
                         let option = document.createElement('option');
                         option.value = value.OznakaUstanove;
                         option.textContent = value.OznakaUstanove;
                         target.appendChild(option);
                     });
-                    document.getElementById("Ustanova").value = result.Ustanova;
+                    document.getElementById("Ustanova").value = result.OznakaUstanove;
                 });
 
                 user().then(result => {
@@ -631,6 +641,7 @@ function urediVnos(IdVnosa){
                 document.getElementById("Spol").value = result.Spol;
                 document.getElementById("UporabniskoIme").value = result.OznakaSkrbnika;
                 document.getElementById("email").value = result.ElektronskaPosta;
+
             });
     });
 

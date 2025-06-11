@@ -219,10 +219,11 @@ server.post('/pridobiVnosAdmin', async (req, res) => {
 server.post('/spremeniVnos', async (req, res) => {
     try{
         let result;
+        console.log(`UPDATE tabnamestitev SET Ime = '${req.body.Ime}', Priimek = '${req.body.Priimek}', Spol = '${req.body.Spol}', ElektronskaPosta = '${req.body.email}', OznakaUstanove = '${req.body.OznakaUstanove}', NazivOS = '${req.body.OS}', NazivEndNoteVerzije = '${req.body.EndNoteV}', StatusUporabnika = '${req.body.StatusUporabnika}', ClanicaNamestitve = 'UKM', StopnjaStudijskegaPrograma = NULL, OznakaSkrbnika = '${req.body.UporabniskoIme}', DatumNamestitve = '${req.body.DatumNamestitve}', DatumSpremembe = '${req.body.DatumSpremembe}' WHERE IdNamestitve = '${req.body.ID}'`);
         if(req.body.StopnjaStudija == ""){
-            result = await SQLquery(`UPDATE tabnamestitev SET Ime = '${req.body.Ime}', Priimek = '${req.body.Priimek}', Spol = '${req.body.Spol}', ElektronskaPosta = '${req.body.email}', OznakaUstanove = '${req.body.Ustanova}', NazivOS = '${req.body.OS}', NazivEndNoteVerzije = '${req.body.EndNoteV}', StatusUporabnika = '${req.body.StatusUporabnika}', ClanicaNamestitve = 'UKM', StopnjaStudijskegaPrograma = NULL, OznakaSkrbnika = '${req.body.UporabniskoIme}', DatumSpremembe = '${req.body.Datum}' WHERE IdNamestitve = '${req.body.ID}'`)
+            result = await SQLquery(`UPDATE tabnamestitev SET Ime = '${req.body.Ime}', Priimek = '${req.body.Priimek}', Spol = '${req.body.Spol}', ElektronskaPosta = '${req.body.email}', OznakaUstanove = '${req.body.OznakaUstanove}', NazivOS = '${req.body.OS}', NazivEndNoteVerzije = '${req.body.EndNoteV}', StatusUporabnika = '${req.body.StatusUporabnika}', ClanicaNamestitve = 'UKM', StopnjaStudijskegaPrograma = NULL, OznakaSkrbnika = '${req.body.UporabniskoIme}', DatumNamestitve = '${req.body.DatumNamestitve}', DatumSpremembe = '${req.body.DatumSpremembe}' WHERE IdNamestitve = '${req.body.ID}'`)
         }else{
-            result = await SQLquery(`UPDATE tabnamestitev SET Ime = '${req.body.Ime}', Priimek = '${req.body.Priimek}', Spol = '${req.body.Spol}', ElektronskaPosta = '${req.body.email}', OznakaUstanove = '${req.body.Ustanova}', NazivOS = '${req.body.OS}', NazivEndNoteVerzije = '${req.body.EndNoteV}', StatusUporabnika = '${req.body.StatusUporabnika}', ClanicaNamestitve = 'UKM', StopnjaStudijskegaPrograma = '${req.body.StopnjaStudija}', OznakaSkrbnika = '${req.body.UporabniskoIme}', DatumSpremembe = '${req.body.Datum}' WHERE IdNamestitve = '${req.body.ID}'`)
+            result = await SQLquery(`UPDATE tabnamestitev SET Ime = '${req.body.Ime}', Priimek = '${req.body.Priimek}', Spol = '${req.body.Spol}', ElektronskaPosta = '${req.body.email}', OznakaUstanove = '${req.body.OznakaUstanove}', NazivOS = '${req.body.OS}', NazivEndNoteVerzije = '${req.body.EndNoteV}', StatusUporabnika = '${req.body.StatusUporabnika}', ClanicaNamestitve = 'UKM', StopnjaStudijskegaPrograma = '${req.body.StopnjaStudija}', OznakaSkrbnika = '${req.body.UporabniskoIme}', DatumNamestitve = '${req.body.DatumNamestitve}', DatumSpremembe = '${req.body.DatumSpremembe}' WHERE IdNamestitve = '${req.body.ID}'`)
         }
         res.send(result);
     }catch(err){
@@ -298,6 +299,7 @@ server.post('/OS', async (req, res) => {
 server.post('/Ustanova', async (req, res) => {
     try{
         let result = await SQLquery("SELECT * FROM tabustanova");
+        console.log(result);
         res.send(result);
     }catch{
         console.log(err);
