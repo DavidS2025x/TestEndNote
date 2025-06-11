@@ -55,7 +55,6 @@ server.post('/login', async (req, res) => {
     let UporabniskoIme = req.body.UporabniskoIme;
     let UporabniskoGeslo = req.body.UporabniskoGeslo;
     let result = await SQLquery(`SELECT * FROM tablogin WHERE UporabniskoIme = '${UporabniskoIme}' AND UporabniskoGeslo = '${UporabniskoGeslo}'`);
-    console.log(result);
     if(result.length > 0){
         req.session.UporabniskoIme = UporabniskoIme;
         req.session.ID = result[0].OznakaSkrbnika;
@@ -84,7 +83,6 @@ server.post('/user', (req, res) => {
 server.post('/analitikaUstanove', async (req, res) => {
     try{
         let result = await SQLquery("SELECT COUNT(*) AS Stevilo, OznakaUstanove FROM tabnamestitev GROUP BY OznakaUstanove ORDER BY Stevilo ASC");
-        console.log(result);
         res.send(result);
     } catch (err){
         console.log(err);
@@ -156,17 +154,12 @@ server.post('/Vnos', async (req, res) => {
     let result;
     try{
         let vnos = req.body;
-        console.log(vnos);
         let queryString = `INSERT INTO tabnamestitev(Ime,Priimek,Spol,ElektronskaPosta,OznakaUstanove,NazivOS,NazivEndNoteVerzije,StatusUporabnika,ClanicaNamestitve,StopnjaStudijskegaPrograma,OznakaSkrbnika,DatumNamestitve,DatumSpremembe) VALUES("${vnos.Ime}","${vnos.Priimek}","${vnos.Spol}","${vnos.email}","${vnos.OznakaUstanove}","${vnos.OS}","${vnos.EndNoteV}","${vnos.StatusUporabnika}",'UKM',"${vnos.StopnjaStudija}","${vnos.UporabniskoIme}","${vnos.Datum}","${vnos.Datum}")`;
         let queryStringNull = `INSERT INTO tabnamestitev(Ime,Priimek,Spol,ElektronskaPosta,OznakaUstanove,NazivOS,NazivEndNoteVerzije,StatusUporabnika,ClanicaNamestitve,StopnjaStudijskegaPrograma,OznakaSkrbnika,DatumNamestitve,DatumSpremembe) VALUES("${vnos.Ime}","${vnos.Priimek}","${vnos.Spol}","${vnos.email}","${vnos.OznakaUstanove}","${vnos.OS}","${vnos.EndNoteV}","${vnos.StatusUporabnika}",'UKM',NULL,"${vnos.UporabniskoIme}","${vnos.Datum}","${vnos.Datum}")`;
-        console.log(queryStringNull);
-        console.log(vnos.StopnjaStudija);
         try{
             if(vnos.StopnjaStudija == "NULL" || vnos.StopnjaStudija == ""){
-                console.log("Stopnja študija je NULL");
                 result = await SQLquery(queryStringNull);
             }else{
-                console.log("Stopnja študija ni NULL");
                 result = await SQLquery(queryString);
             }
             
@@ -219,7 +212,6 @@ server.post('/pridobiVnosAdmin', async (req, res) => {
 server.post('/spremeniVnos', async (req, res) => {
     try{
         let result;
-        console.log(`UPDATE tabnamestitev SET Ime = '${req.body.Ime}', Priimek = '${req.body.Priimek}', Spol = '${req.body.Spol}', ElektronskaPosta = '${req.body.email}', OznakaUstanove = '${req.body.OznakaUstanove}', NazivOS = '${req.body.OS}', NazivEndNoteVerzije = '${req.body.EndNoteV}', StatusUporabnika = '${req.body.StatusUporabnika}', ClanicaNamestitve = 'UKM', StopnjaStudijskegaPrograma = NULL, OznakaSkrbnika = '${req.body.UporabniskoIme}', DatumNamestitve = '${req.body.DatumNamestitve}', DatumSpremembe = '${req.body.DatumSpremembe}' WHERE IdNamestitve = '${req.body.ID}'`);
         if(req.body.StopnjaStudija == ""){
             result = await SQLquery(`UPDATE tabnamestitev SET Ime = '${req.body.Ime}', Priimek = '${req.body.Priimek}', Spol = '${req.body.Spol}', ElektronskaPosta = '${req.body.email}', OznakaUstanove = '${req.body.OznakaUstanove}', NazivOS = '${req.body.OS}', NazivEndNoteVerzije = '${req.body.EndNoteV}', StatusUporabnika = '${req.body.StatusUporabnika}', ClanicaNamestitve = 'UKM', StopnjaStudijskegaPrograma = NULL, OznakaSkrbnika = '${req.body.UporabniskoIme}', DatumNamestitve = '${req.body.DatumNamestitve}', DatumSpremembe = '${req.body.DatumSpremembe}' WHERE IdNamestitve = '${req.body.ID}'`)
         }else{
@@ -235,12 +227,9 @@ server.post('/spremeniVnosAdmin', async (req, res) => {
     try{
         if(req.body.Tabela == "tablogin"){
             let result;
-            console.log(req.body.Admin);
             if(req.body.Admin == true){
-                console.log("Admin je ON");
                 result = await SQLquery(`UPDATE ${req.body.Tabela} SET OznakaSkrbnika = '${req.body.OznakaSkrbnika}', UporabniskoIme = '${req.body.UporabniskoIme}', UporabniskoGeslo = '${req.body.UporabniskoGeslo}', Admin = true WHERE OznakaSkrbnika = '${req.body.IDvnosa}'`);
             }else{
-                console.log("Admin je OFF");
                 result = await SQLquery(`UPDATE ${req.body.Tabela} SET OznakaSkrbnika = '${req.body.OznakaSkrbnika}', UporabniskoIme = '${req.body.UporabniskoIme}', UporabniskoGeslo = '${req.body.UporabniskoGeslo}', Admin = false WHERE OznakaSkrbnika = '${req.body.IDvnosa}'`);
             }
             res.send(result);
@@ -299,7 +288,6 @@ server.post('/OS', async (req, res) => {
 server.post('/Ustanova', async (req, res) => {
     try{
         let result = await SQLquery("SELECT * FROM tabustanova");
-        console.log(result);
         res.send(result);
     }catch{
         console.log(err);
@@ -323,7 +311,6 @@ server.post('/AdminUporabniki', async (req, res) => {
 
 server.post('/AdminUstanove', async (req, res) => {
     let result = await SQLquery("SELECT * FROM tabustanova");
-    console.log(result);
     res.send(result);
 });
 
@@ -340,9 +327,6 @@ server.post('/AdminEndNote', async (req, res) => {
 server.post('/AdminIzbris', async (req, res) => {
     let ID = req.body.ID;
     let Tabela = req.body.Tabela;
-    console.log("Sedaj smo tukaj");
-    console.log(ID);
-    console.log(Tabela);
     if(Tabela == "tablogin"){
         try{
             let result = await SQLquery(`DELETE FROM ${Tabela} WHERE OznakaSkrbnika = '${ID}'`);
@@ -387,20 +371,13 @@ server.post('/AdminVnosUser', async (req, res) => {
     let vnos = req.body;
     let result;
     try{
-        console.log(vnos);
-
         if(vnos.Admin == "on"){
-            console.log("Admin je ON");
             result = await SQLquery(`INSERT INTO tablogin(OznakaSkrbnika,UporabniskoIme,UporabniskoGeslo,Admin) VALUES("${vnos.OznakaSkrbnika}","${vnos.UporabniskoIme}","${vnos.UporabniskoGeslo}","1")`);
-            console.log(result);
         }else{
-            console.log("Admin je OFF");
-            console.log(vnos.UporabniskoIme);
             result = await SQLquery(`INSERT INTO tablogin(OznakaSkrbnika,UporabniskoIme,UporabniskoGeslo,Admin) VALUES("${vnos.OznakaSkrbnika}","${vnos.UporabniskoIme}","${vnos.UporabniskoGeslo}","0")`);
         }
         res.status(200);
         res.send(result);
-        
     }catch(err){
         res.status(500);
         res.send(err);

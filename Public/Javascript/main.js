@@ -415,8 +415,6 @@ function Obrazec(){
                 });
 
                 user().then(result => {
-                    console.log(result);
-                    console.log(result.UporabniskoIme);
                     let UporabniskoIme = document.createElement("option");
                     UporabniskoIme.value = result.ID;
                     UporabniskoIme.innerHTML = result.UporabniskoIme;
@@ -433,7 +431,6 @@ function novVnos(formData){
     orderServer("/Vnos",JSON.stringify(formData),"vnesi")
     .then(response => {
         if (response.ok) {
-            console.log(response);
             document.getElementById("modalNaslov").innerHTML = "Status Vnosa";
             document.getElementById("modalVsebina").innerHTML = "Vnos je bil uspešen!";
             modal.show();
@@ -495,15 +492,12 @@ function urediVnos(IdVnosa){
                         let DatumNamestitve = document.getElementById("Datum").value;
 
                         let queryString;
-                        console.log(Ustanova);
 
                         if(document.getElementById('StopnjaStudija').disabled){
                             queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":"","UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"DatumNamestitve":DatumNamestitve,"DatumSpremembe":DatumSpremembe} 
                         }else{
                             queryString = {"ID":IdVnosa,"Ime":Ime,"Priimek":Priimek,"Spol":Spol,"StatusUporabnika":StatusUporabnika,"StopnjaStudija":StopnjaStudija,"UporabniskoIme":UporabniskoIme,"email":email,"EndNoteV":EndNoteV,"OS":OS,"OznakaUstanove":Ustanova,"DatumNamestitve":DatumNamestitve,"DatumSpremembe":DatumSpremembe} 
                         }
-
-                        console.log(queryString);   
 
                         orderServer("spremeniVnos",JSON.stringify(queryString),"uredi")
                         .then(req => {
@@ -618,7 +612,6 @@ function urediVnos(IdVnosa){
                 .then(req => req.json())
                 .then(data => {
                     let target = document.getElementById('Ustanova')
-                    console.log(data);
                     Object.entries(data).forEach(([key, value]) => {
                         let option = document.createElement('option');
                         option.value = value.OznakaUstanove;
@@ -696,7 +689,6 @@ function ObrazecAdmin(obrazec){
                     event.preventDefault();
                     
                     const form = event.target;
-                    console.log()
                     const formData = new FormData(form);
 
                     const data = {};
@@ -736,7 +728,6 @@ function ObrazecAdmin(obrazec){
                     event.preventDefault();
                     
                     const form = event.target;
-                    console.log()
                     const formData = new FormData(form);
 
                     const data = {};
@@ -776,7 +767,6 @@ function ObrazecAdmin(obrazec){
                     event.preventDefault();
                     
                     const form = event.target;
-                    console.log()
                     const formData = new FormData(form);
 
                     const data = {};
@@ -816,7 +806,6 @@ function ObrazecAdmin(obrazec){
                     event.preventDefault();
                     
                     const form = event.target;
-                    console.log()
                     const formData = new FormData(form);
 
                     const data = {};
@@ -863,7 +852,6 @@ function Administracija(tabelaIzbira){
     }else if(tabelaIzbira == "tabendnote"){
         poizvedba = "AdminEndNote";
     }
-    console.log(poizvedba);
     askServer(poizvedba)
     .then(res => res.json())
     .then(data => {
@@ -988,9 +976,6 @@ function Administracija(tabelaIzbira){
 }
 
 function IzbrisAdmin(element){
-    console.log(element);
-    console.log(element.id);
-    console.log(element.className);
     if(confirm(`Ste prepričani da želite izbrisati vnos z ID ${element.id}?`)){
         if(element.className == "tablogin"){
             fetch('AdminIzbris', {
@@ -1013,7 +998,6 @@ function IzbrisAdmin(element){
                     Administracija("tabustanova");
             });
         }else if(element.className == "tabos"){
-            console.log("OS");
             fetch('AdminIzbris', {
                 method: 'POST',
                 headers: {
@@ -1024,7 +1008,6 @@ function IzbrisAdmin(element){
                     Administracija("tabos");
             });
         }else if(element.className == "tabendnote"){
-            console.log("EndNote");
             fetch('AdminIzbris', {
                 method: 'POST',
                 headers: {
@@ -1044,7 +1027,6 @@ function urediVnosAdmin(IDVnosa,tabelaIzbira){
             askServer("pridobiVnosAdmin",`{"ID":"${IDVnosa}","IDTabele":"${tabelaIzbira}","nazivID":"oznakaSkrbnika"}`)
             .then(req => req.json())
             .then(dataTemp => {
-                console.log(dataTemp);
                 fetch('/HTML/AdminUser.html')
                 .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
                 .then(html => {
@@ -1100,7 +1082,6 @@ function urediVnosAdmin(IDVnosa,tabelaIzbira){
             askServer("pridobiVnosAdmin",`{"ID":"${IDVnosa}","IDTabele":"${tabelaIzbira}","nazivID":"OznakaUstanove"}`)
             .then(req => req.json())
             .then(dataTemp => {
-                console.log(dataTemp);
                 fetch('/HTML/AdminUstanove.html')
                 .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
                 .then(html => {
@@ -1150,7 +1131,6 @@ function urediVnosAdmin(IDVnosa,tabelaIzbira){
             askServer("pridobiVnosAdmin",`{"ID":"${IDVnosa}","IDTabele":"${tabelaIzbira}","nazivID":"NazivOS"}`)
             .then(req => req.json())
             .then(dataTemp => {
-                console.log(dataTemp);
                 fetch('/HTML/AdminOS.html')
                 .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
                 .then(html => {
@@ -1190,7 +1170,6 @@ function urediVnosAdmin(IDVnosa,tabelaIzbira){
             askServer("pridobiVnosAdmin",`{"ID":"${IDVnosa}","IDTabele":"${tabelaIzbira}","nazivID":"nazivEndNoteVerzije"}`)
             .then(req => req.json())
             .then(dataTemp => {
-                console.log(dataTemp);
                 fetch('/HTML/AdminEN.html')
                 .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
                 .then(html => {
@@ -1225,492 +1204,7 @@ function urediVnosAdmin(IDVnosa,tabelaIzbira){
         }
 }
 
-/*
-function Administracija(){
-    //Če graf obstaja ga uniči preden ga ponovno nariše, preprečimo memory leak
-    if(chartUstanove){
-        chartUstanove.destroy();
-    }
-    if(chartOS){
-        chartOS.destroy();
-    }
-    if(chartENVer){
-        chartENVer.destroy();
-    }
 
-    fetch('/HTML/AdminForm.html')
-            .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
-            .then(html => {
-                document.getElementById('Vsebina').innerHTML = html;
-                AdministracijaUporabniki();
-            });
-}
-
-function AdministracijaUporabniki(){
-    askServer('Uporabnik')
-    .then(res => res.json())
-    .then(data => {
-        //Administracija Vnos
-        document.getElementById("AdminVnos").innerHTML = '';
-        fetch('/HTML/AdminUser.html')
-        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
-        .then(html => {
-            document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
-            document.querySelectorAll("label").forEach(label => {
-                label.addEventListener("click", (e) => {
-                    const inputId = label.getAttribute("for");
-                    const input = document.getElementById(inputId);
-                    if (input && input.select) {
-                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
-                        setTimeout(() => input.select(), 0);
-                    }
-                });
-            });
-            document.getElementById("Vnos").addEventListener("submit", function(event) {
-                    event.preventDefault();
-                    
-                    const form = event.target;
-                    const formData = new FormData(form);
-
-                    const data = {};
-                    for(const [key, value] of formData.entries()) {
-                        data[key] = value;
-                    }
-
-                    fetch('/AdminVnosUser', { 
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data)
-                    }).then(res => {
-                        setTimeout(() => {
-                            AdministracijaUporabniki();
-                        }, 100);
-                    });
-            });
-        });
-        //Administracija Izbris
-        document.getElementById("AdminIzbris").innerHTML = '';
-
-        let tabela = document.createElement('table');
-        tabela.className = "table table-sm";
-        tabela.id = "SifrantTabela"
-
-        let tabelaHead = document.createElement('thead');
-        let tabelaHeadTr = document.createElement('tr');
-
-        //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
-        Object.entries(data[0]).forEach(([key, value]) => {
-            let tabelaHeadTd = document.createElement('th');
-            tabelaHeadTd.innerHTML = key;
-            tabelaHeadTr.append(tabelaHeadTd);
-        });
-
-        let tabelaHeadBtn = document.createElement('th');
-        tabelaHeadTr.append(tabelaHeadBtn)
-
-        tabelaHead.append(tabelaHeadTr);
-        tabela.append(tabelaHead);
-
-        let tabelaBody = document.createElement('tbody');
-
-        data.forEach((data) => {
-            let tr = document.createElement('tr')
-
-            let btnDel = document.createElement('button');
-            btnDel.textContent = "Izbriši";
-            btnDel.onclick = function(){
-                IzbrisAdmin(this);
-            }
-
-            let btnTd = document.createElement('td');
-
-            Object.entries(data).forEach(([key, value]) => {
-                let td = document.createElement('td');
-                td.textContent = `${value}`;
-                if(btnDel.id == ''){
-                    btnDel.id = `${value}`;
-                    btnDel.className = `tablogin`;
-                }
-                tr.append(td);
-            })
-
-            btnTd.append(btnDel);
-            tr.append(btnTd);
-
-            tabelaBody.append(tr);
-        });
-
-        tabela.append(tabelaBody);
-        document.getElementById("AdminIzbris").append(tabela);
-
-        document.querySelectorAll("label").forEach(label => {
-            label.addEventListener("click", (e) => {
-                const inputId = label.getAttribute("for");
-                const input = document.getElementById(inputId);
-                if (input && input.select) {
-                    // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
-                    setTimeout(() => input.select(), 0);
-                }
-            });
-        });
-
-    })
-}
-function AdministracijaUstanove(){
-    askServer('Ustanova')
-    .then(res => res.json())
-    .then(data => {
-        //Administracija Vnos
-        document.getElementById("AdminVnos").innerHTML = '';
-        fetch('/HTML/AdminUstanove.html')
-        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
-        .then(html => {
-            document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
-            document.querySelectorAll("label").forEach(label => {
-                label.addEventListener("click", (e) => {
-                    const inputId = label.getAttribute("for");
-                    const input = document.getElementById(inputId);
-                    if (input && input.select) {
-                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
-                        setTimeout(() => input.select(), 0);
-                    }
-                });
-            });
-            document.getElementById("Vnos").addEventListener("submit", function(event) {
-                    event.preventDefault();
-                    
-                    const form = event.target;
-                    const formData = new FormData(form);
-
-                    const data = {};
-                    for(const [key, value] of formData.entries()) {
-                        data[key] = value;
-                    }
-
-                    fetch('/AdminVnosUstanove', { 
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data)
-                    }).then(res => {
-                        setTimeout(() => {
-                            AdministracijaUstanove();
-                        }, 100);
-                    });
-            });
-        });
-        //Administracija Izbris
-        document.getElementById("AdminIzbris").innerHTML = '';
-
-        let tabela = document.createElement('table');
-        tabela.className = "table table-sm";
-        tabela.id = "SifrantTabela"
-
-        let tabelaHead = document.createElement('thead');
-        let tabelaHeadTr = document.createElement('tr');
-
-        //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
-        Object.entries(data[0]).forEach(([key, value]) => {
-            let tabelaHeadTd = document.createElement('th');
-            tabelaHeadTd.innerHTML = key;
-            tabelaHeadTr.append(tabelaHeadTd);
-        });
-
-        let tabelaHeadBtn = document.createElement('th');
-        tabelaHeadTr.append(tabelaHeadBtn)
-
-        tabelaHead.append(tabelaHeadTr);
-        tabela.append(tabelaHead);
-
-        let tabelaBody = document.createElement('tbody');
-
-        data.forEach((data) => {
-            let tr = document.createElement('tr')
-
-            let btnDel = document.createElement('button');
-            btnDel.textContent = "Izbriši";
-            btnDel.onclick = function(){
-                IzbrisAdmin(this);
-            }
-
-            let btnTd = document.createElement('td');
-
-            Object.entries(data).forEach(([key, value]) => {
-                let td = document.createElement('td');
-                td.textContent = `${value}`;
-                if(btnDel.id == ''){
-                    btnDel.id = `${value}`;
-                    btnDel.className = `tabustanova`;
-                }
-                tr.append(td);
-            })
-
-            btnTd.append(btnDel);
-            tr.append(btnTd);
-
-            tabelaBody.append(tr);
-        });
-
-        tabela.append(tabelaBody);
-        document.getElementById("AdminIzbris").append(tabela);
-
-    })
-}
-function AdministracijaOS(){
-    askServer('OS')
-    .then(res => res.json())
-    .then(data => {
-        //Administracija Vnos
-        document.getElementById("AdminVnos").innerHTML = '';
-        fetch('/HTML/AdminOS.html')
-        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
-        .then(html => {
-            document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
-            document.querySelectorAll("label").forEach(label => {
-                label.addEventListener("click", (e) => {
-                    const inputId = label.getAttribute("for");
-                    const input = document.getElementById(inputId);
-                    if (input && input.select) {
-                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
-                        setTimeout(() => input.select(), 0);
-                    }
-                });
-            });
-            document.getElementById("Vnos").addEventListener("submit", function(event) {
-                    event.preventDefault();
-                    
-                    const form = event.target;
-                    const formData = new FormData(form);
-
-                    const data = {};
-                    for(const [key, value] of formData.entries()) {
-                        data[key] = value;
-                    }
-
-                    fetch('/AdminVnosOS', { 
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data)
-                    }).then(res => {
-                        setTimeout(() => {
-                            AdministracijaOS();
-                        }, 100);
-                    });
-            });
-        });
-        //Administracija Izbris
-        document.getElementById("AdminIzbris").innerHTML = '';
-
-        let tabela = document.createElement('table');
-        tabela.className = "table table-sm";
-        tabela.id = "SifrantTabela"
-
-        let tabelaHead = document.createElement('thead');
-        let tabelaHeadTr = document.createElement('tr');
-
-        //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
-        Object.entries(data[0]).forEach(([key, value]) => {
-            let tabelaHeadTd = document.createElement('th');
-            tabelaHeadTd.innerHTML = key;
-            tabelaHeadTr.append(tabelaHeadTd);
-        });
-
-        let tabelaHeadBtn = document.createElement('th');
-        tabelaHeadTr.append(tabelaHeadBtn)
-
-        tabelaHead.append(tabelaHeadTr);
-        tabela.append(tabelaHead);
-
-        let tabelaBody = document.createElement('tbody');
-
-        data.forEach((data) => {
-            let tr = document.createElement('tr')
-
-            let btnDel = document.createElement('button');
-            btnDel.textContent = "Izbriši";
-            btnDel.onclick = function(){
-                IzbrisAdmin(this);
-            }
-
-            let btnTd = document.createElement('td');
-
-            Object.entries(data).forEach(([key, value]) => {
-                let td = document.createElement('td');
-                td.textContent = `${value}`;
-                if(btnDel.id == ''){
-                    btnDel.id = `${value}`;
-                    btnDel.className = `tabos`;
-                }
-                tr.append(td);
-            })
-
-            btnTd.append(btnDel);
-            tr.append(btnTd);
-
-            tabelaBody.append(tr);
-        });
-
-        tabela.append(tabelaBody);
-        document.getElementById("AdminIzbris").append(tabela);
-
-    })
-}
-function AdministracijaEndNote(){
-    askServer('EndNote')
-    .then(res => res.json())
-    .then(data => {
-        //Administracija Vnos
-        document.getElementById("AdminVnos").innerHTML = '';
-        fetch('/HTML/AdminEN.html')
-        .then(response => response.text())  // Pretvori odgovor v besedilo (HTML)
-        .then(html => {
-            document.getElementById('AdminVnos').innerHTML = html;  // Dodaj HTML v glavni dokument
-            document.querySelectorAll("label").forEach(label => {
-                label.addEventListener("click", (e) => {
-                    const inputId = label.getAttribute("for");
-                    const input = document.getElementById(inputId);
-                    if (input && input.select) {
-                        // Delay, ker label klik včasih samo fokusira input, ne izbere takoj
-                        setTimeout(() => input.select(), 0);
-                    }
-                });
-            });
-            document.getElementById("Vnos").addEventListener("submit", function(event) {
-                    event.preventDefault();
-                    
-                    const form = event.target;
-                    const formData = new FormData(form);
-
-                    const data = {};
-                    for(const [key, value] of formData.entries()) {
-                        data[key] = value;
-                    }
-
-                    fetch('/AdminVnosEN', { 
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data)
-                    }).then(res => {
-                        setTimeout(() => {
-                            AdministracijaEndNote();
-                        }, 100);
-                    });
-            });
-        });
-        //Administracija Izbris
-        document.getElementById("AdminIzbris").innerHTML = '';
-
-        let tabela = document.createElement('table');
-        tabela.className = "table table-sm";
-        tabela.id = "SifrantTabela"
-
-        let tabelaHead = document.createElement('thead');
-        let tabelaHeadTr = document.createElement('tr');
-
-        //Gremo skozi imena ključev oz. imena stolpcev in jih zapišemo v head vrstico tabele
-        Object.entries(data[0]).forEach(([key, value]) => {
-            let tabelaHeadTd = document.createElement('th');
-            tabelaHeadTd.innerHTML = key;
-            tabelaHeadTr.append(tabelaHeadTd);
-        });
-
-        let tabelaHeadBtn = document.createElement('th');
-        tabelaHeadTr.append(tabelaHeadBtn)
-
-        tabelaHead.append(tabelaHeadTr);
-        tabela.append(tabelaHead);
-
-        let tabelaBody = document.createElement('tbody');
-
-        data.forEach((data) => {
-            let tr = document.createElement('tr')
-
-            let btnDel = document.createElement('button');
-            btnDel.textContent = "Izbriši";
-            btnDel.onclick = function(){
-                IzbrisAdmin(this);
-            }
-
-            let btnTd = document.createElement('td');
-
-            Object.entries(data).forEach(([key, value]) => {
-                let td = document.createElement('td');
-                td.textContent = `${value}`;
-                if(btnDel.id == ''){
-                    btnDel.id = `${value}`;
-                    btnDel.className = `tabendnote`;
-                }
-                tr.append(td);
-            })
-
-            btnTd.append(btnDel);
-            tr.append(btnTd);
-
-            tabelaBody.append(tr);
-        });
-
-        tabela.append(tabelaBody);
-        document.getElementById("AdminIzbris").append(tabela);
-
-    })
-}   
-
-function IzbrisAdmin(element){
-    console.log(element.className);
-    if(confirm(`Ste prepričani da želite izbrisati vnos z ID ${element.id}?`)){
-        if(element.className == "tablogin"){
-            fetch('AdminIzbris', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({"ID":element.id,"Tabela":element.className})
-            }).then(res => {
-                    AdministracijaUporabniki();
-            });
-        }else if(element.className == "tabustanova"){
-            fetch('AdminIzbris', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({"ID":element.id,"Tabela":element.className})
-            }).then(res => {
-                    AdministracijaUstanove();
-            });
-        }else if(element.className == "tabos"){
-            console.log("OS");
-            fetch('AdminIzbris', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({"ID":element.id,"Tabela":element.className})
-            }).then(res => {
-                    AdministracijaOS();
-            });
-        }else if(element.className == "tabendnote"){
-            console.log("EndNote");
-            fetch('AdminIzbris', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({"ID":element.id,"Tabela":element.className})
-            }).then(res => {
-                    AdministracijaEndNote();
-            });
-        }
-    }
-}
-    */
 
 window.Dashboard = Dashboard;
 window.Analitika = Analitika;
