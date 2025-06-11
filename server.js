@@ -7,7 +7,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const e = require("express");
 
-/*
+
 const pool = mysql.createPool({
     connectionLimit: 10,
     host: 'sql7.freesqldatabase.com',
@@ -15,8 +15,9 @@ const pool = mysql.createPool({
     password: 'ktzaxJU9L6',
     database: 'sql7775750'
 });
-*/
 
+
+/*
 const pool = mysql.createPool({
     connectionLimit: 10,
     host: 'LocalHost',
@@ -24,6 +25,7 @@ const pool = mysql.createPool({
     password: 'AdminRoot2025!',
     database: 'endnotenamestitve'
 });
+*/
 
 /*const pool = mysql.createPool({
     connectionLimit: 10,
@@ -125,6 +127,16 @@ server.post('/StNamestitev', async (req, res) => {
         let result = await SQLquery("select COUNT(*) AS Stevilo FROM tabnamestitev");
         res.send(result);
     } catch (err){
+        console.log(err);
+        res.status(500);
+    }
+});
+
+server.post('/StNamestitevLeto', async (req, res) => {
+    try{
+        let result = await SQLquery("SELECT COUNT(*) AS Stevilo, YEAR(DatumNamestitve) AS Leto FROM tabnamestitev GROUP BY YEAR(DatumNamestitve) ORDER BY leto ASC");
+        res.send(result);
+    }catch (err){
         console.log(err);
         res.status(500);
     }

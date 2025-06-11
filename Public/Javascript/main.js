@@ -51,6 +51,21 @@ function Dashboard(){
             
         })
 
+        askServer('StNamestitevLeto')
+        .then(res => res.json())
+        .then(data => {
+            let QueryData = [];
+            let QueryLabel = [];
+
+            //Razdelimo si rezultate SQL poizvedbe v dva polja, enega z podatki drugega z oznakami. Le te nato pošljemo v funkcijo ki nam izriše graf
+            for(let i = 0; i < data.length; i++){
+                QueryData.push(data[i].Stevilo);
+                QueryLabel.push(data[i].Leto);
+            } 
+
+            chartENVer = chartBar(QueryData,QueryLabel,document.getElementById("StNamestitevLeto"));
+        });
+
         //Post metoda na strežnik, dobimo SQL query napisan za tale ROUTE. Preberemo podatke in narišemo graf
         askServer('analitikaOS')
         .then(res => res.json())
